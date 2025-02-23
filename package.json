@@ -4,6 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
     "dev": "nodemon src/server/index.ts",
     "start": "node dist/server/index.js"
   },
