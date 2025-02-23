@@ -30,7 +30,7 @@ class SocketConfig {
             this.handleConnection(socket);
         });
 
-        console.log("Socket inicializado")
+        // console.log("Socket inicializado")
     }
 
     private handleConnection(socket: Socket) {
