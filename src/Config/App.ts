@@ -2,6 +2,7 @@ import "dotenv/config"
 import { Express } from "express";
 import express from "express";
 import { Server as HttpServer, createServer } from "http";
+import SocketConfig from "../sockets/index"
 
 // @types/prisma typescript nodemon @types/jsonwebtoken
 export class App {
@@ -14,10 +15,11 @@ export class App {
         this.server = createServer(this.app);
 
         this.routes();
-        this.middleares();
+        this.middlewares();
+        this.sockets();
     }
 
-    middleares() {
+    middlewares() {
         this.app.use(express.json())
     }
 
@@ -30,7 +32,11 @@ export class App {
 
     start() {
         this.app.listen(this._port || 1111, () => {
-            console.log("Rodando")
+            console.log(`Servidor rodando na porta ${this._port ? this._port : 1111}`)
         })
+    }
+
+    sockets() {
+        SocketConfig.initialize(this.server)
     }
 }
