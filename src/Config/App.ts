@@ -3,6 +3,7 @@ import { Express } from "express";
 import express from "express";
 import { Server as HttpServer, createServer } from "http";
 import SocketConfig from "../sockets/index"
+import { routes } from "../routes";
 
 // @types/prisma typescript nodemon @types/jsonwebtoken
 export class App {
@@ -28,6 +29,8 @@ export class App {
         this.app.get("/", (Request, Response) => {
             Response.send("WELCOME TO Stivy API.")
         });
+
+        this.app.use(routes)
     }
 
     start() {
