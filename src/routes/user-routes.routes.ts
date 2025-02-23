@@ -11,6 +11,6 @@ routes.post("/create",upload.single("file"), new CreateUserController().handle)
 
 routes.get("/:userId?", new GetUserController().handle)
 
-routes.put("/update/:userId", new UpdateUserController().handle)
+routes.put("/update/:userId", upload.single("file"), new UpdateUserController().handle)
 
 export { routes }
