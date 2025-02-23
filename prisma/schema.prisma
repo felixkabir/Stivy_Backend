@@ -89,10 +89,10 @@ model Post {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
 
-  content  String?
-  type     String?
-  file_url String?
-  file_key String?
+  content   String?
+  type      String?
+  file_urls String[] @default([])
+  file_keys String[] @default([])
 
   userId   String?
   agencyId String?
