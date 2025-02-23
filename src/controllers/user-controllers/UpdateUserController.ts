@@ -27,8 +27,6 @@ export class UpdateUserController {
             id: userId,
             email,
             username,
-            file_url: String(request.file?.path),
-            file_key: String(request.file?.filename),
         })
 
         response.json(result)

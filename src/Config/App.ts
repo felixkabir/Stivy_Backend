@@ -15,8 +15,8 @@ export class App {
         this.app = express();
         this.server = createServer(this.app);
 
-        this.routes();
         this.middlewares();
+        this.routes();
         this.sockets();
     }
 

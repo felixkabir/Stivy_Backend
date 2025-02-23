@@ -14,15 +14,16 @@ datasource db {
 }
 
 model User {
-  id         String         @id @default(uuid())
-  created_at DateTime       @default(now())
-  username   String
-  file_url   String?
-  file_key   String?
-  email      String         @unique
-  password   String
-  interests  UserInterest[]
-  agencies   Agency[]
+  id            String         @id @default(uuid())
+  created_at    DateTime       @default(now())
+  username      String
+  file_url      String?
+  file_key      String?
+  email         String         @unique
+  password      String
+  online_status Boolean?       @default(false)
+  interests     UserInterest[]
+  agencies      Agency[]
 
   model                 Model?
   Post                  Post[]
