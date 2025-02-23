@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String         @id @default(uuid())
+  created_at DateTime       @default(now())
+  username   String
+  file_url   String?
+  file_key   String?
+  email      String         @unique
+  password   String
+  interests  UserInterest[]
+  agencies   Agency[]
+
+  model                 Model?
+  Post                  Post[]
+  Event                 Event[]
+  createdNotifications  Notification[] @relation(name: "Creator")
+  receivedNotifications Notification[] @relation(name: "CreatedFor")
+}
+
+model Model {
+  id     String @id @default(uuid())
+  name   String
+  height String
+  waist  String
+  shoes  String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+  Post   Post[]
+}
+
+model Agency {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+
+  name     String
+  file_url String?
+  file_key String?
+  contact  String
+
+  userId  String
+  creator User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+  Post    Post[]
+}
+
+model Interest {
+  id         String         @id @default(uuid())
+  created_at DateTime       @default(now())
+  name       String
+  users      UserInterest[]
+}
+
+model UserInterest {
+  userId     String
+  interestId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interest   Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
+
+  @@id([userId, interestId]) // Chave primária composta
+}
+
+model Event {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  name       String
+
+  start_date DateTime
+  end_date   DateTime
+
+  userId String
+  user   User   @relation(references: [id], fields: [userId])
+}
+
+model Post {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+
+  content  String?
+  type     String?
+  file_url String?
+  file_key String?
+
+  userId   String?
+  agencyId String?
+  modelId  String?
+
+  user   User?   @relation(references: [id], fields: [userId])
+  agency Agency? @relation(references: [id], fields: [agencyId])
+  model  Model?  @relation(references: [id], fields: [modelId])
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  is_readed  Boolean  @default(false)
+
+  userId    String?
+  creatorId String
+
+  creator      User   @relation(name: "Creator", references: [id], fields: [creatorId])
+  createdForId String
+  createdFor   User   @relation(name: "CreatedFor", references: [id], fields: [createdForId])
+}

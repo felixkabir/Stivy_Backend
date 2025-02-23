@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.4.1",
     "@types/http-server": "^0.12.4",
     "bcryptjs": "^3.0.2",
     "dayjs": "^1.11.13",
