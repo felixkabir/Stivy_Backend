@@ -1,4 +1,3 @@
-
 export type UserType = {
     id: string;
     created_at: Date;
@@ -20,6 +19,23 @@ export type AgencyType = {
     userId: string;
 
     creator?: UserType
+}
+
+export type FileType = {
+    id: string;
+    file_url: string;
+    file_key: string;
+}
+
+export type ModelType = {
+    id: string;
+    name: string;
+    height: string;
+    waist: string;
+    shoes: string;
+
+    userId: string
+    files?: File[]
 }
 
 export interface UserResponse extends UserType {

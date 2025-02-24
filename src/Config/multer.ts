@@ -1,4 +1,4 @@
-import multer, { diskStorage } from "multer";
+import multer, { diskStorage, Options } from "multer";
 import { resolve } from "path";
 import fs from "fs"
 
@@ -24,4 +24,12 @@ const storage = diskStorage({
 // Inicializa o multer com a configuração de armazenamento
 const upload = multer({ storage: storage });
 
-export default upload;
+const multerConfig: Options = {
+    storage,
+
+    limits: {
+        fileSize: 30 * 1024 * 1024, // 30MB
+    },
+};
+
+export default multerConfig;

@@ -7,7 +7,7 @@ type UserTypeRequest = {
 }
 
 export class GetUserService {
-    async execute({ userId }: UserTypeRequest): Promise<UserResponse | UserResponse[] | null> {      
+    async execute({ userId }: UserTypeRequest): Promise<any> {      
 
         if (userId) {
             const user = await prisma.user.findUnique({

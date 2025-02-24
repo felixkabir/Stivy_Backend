@@ -43,8 +43,9 @@ model Model {
   userId String @unique
   Post   Post[]
 
-  agencyId String
-  agency   Agency @relation(references: [id], fields: [agencyId], onDelete: Cascade)
+  agencyId String?
+  agency   Agency? @relation(references: [id], fields: [agencyId], onDelete: Cascade)
+  File     File[]
 }
 
 model Agency {
@@ -96,8 +97,6 @@ model Post {
 
   content   String?
   type      String?
-  file_urls String[] @default([])
-  file_keys String[] @default([])
 
   userId   String?
   agencyId String?
@@ -106,6 +105,7 @@ model Post {
   user   User?   @relation(references: [id], fields: [userId])
   agency Agency? @relation(references: [id], fields: [agencyId])
   model  Model?  @relation(references: [id], fields: [modelId])
+  File   File[]
 }
 
 model Notification {
@@ -119,4 +119,16 @@ model Notification {
   creator      User   @relation(name: "Creator", references: [id], fields: [creatorId])
   createdForId String
   createdFor   User   @relation(name: "CreatedFor", references: [id], fields: [createdForId])
+}
+
+model File {
+  id       String @id @default(uuid())
+  file_url String
+  file_key String
+
+  modelId String?
+  model   Model?  @relation(references: [id], fields: [modelId], onDelete: Cascade)
+
+  postId String?
+  post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)
 }

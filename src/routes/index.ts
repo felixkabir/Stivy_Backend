@@ -3,6 +3,7 @@ import { routes as userRoutes } from "../routes/user-routes.routes";
 import { routes as postRoutes } from "./post-routes.routes";
 import { routes as authRoutes } from "./auth.routes";
 import { routes as agencyRoutes } from "./agency-routes.routes";
+import { routes as modelRoutes } from "./model-routes.routes";
 
 const routes = Router()
 
@@ -11,11 +12,14 @@ routes.use("/users", userRoutes)
 
 
 // Post Routes
-routes.use("/post", postRoutes)
+routes.use("/posts", postRoutes)
 
 routes.use("/auth", authRoutes)
 
 // Agency Routes
 routes.use("/agency", agencyRoutes)
+
+// ModelRoutes
+routes.use("/models", modelRoutes)
 
 export { routes }

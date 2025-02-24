@@ -18,7 +18,7 @@ export class GetUserController {
             userId
         })
 
-        if(!result) {
+        if(result === null) {
             response.status(404).json({message: "User not found"})
         } else {
             response.json(result)

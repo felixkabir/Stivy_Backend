@@ -7,15 +7,24 @@ type AgenCyTypeRequest = {
 }
 
 export class GetAgencyService {
-    async execute({ agenceId }: AgenCyTypeRequest): Promise<AgencyType | AgencyType[] | null> {
+    async execute({ agenceId }: AgenCyTypeRequest): Promise<any> {
 
         if (agenceId) {
-            const userAgencies = await prisma.agency.findUnique({ where: { id: agenceId } })            
+            const agencyes = await prisma.agency.findUnique({
+                where: { id: agenceId },
+                include: { Model: true}
+            })
 
-            return userAgencies
+            if (!agencyes) {
+                return null
+            }
+
+            return agencyes
         }
 
-        const agencies = await prisma.agency.findMany()
+        const agencies = await prisma.agency.findMany({
+            include: { Model: true}
+        })
 
         return agencies
     }
