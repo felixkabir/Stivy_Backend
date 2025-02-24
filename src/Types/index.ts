@@ -18,6 +18,8 @@ export type AgencyType = {
     file_key: string | null;
     contact: string;
     userId: string;
+
+    creator?: UserType
 }
 
 export interface UserResponse extends UserType {
