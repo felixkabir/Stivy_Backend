@@ -113,10 +113,9 @@ model Notification {
   created_at DateTime @default(now())
   is_readed  Boolean  @default(false)
 
-  userId    String?
   creatorId String
-
   creator      User   @relation(name: "Creator", references: [id], fields: [creatorId])
+
   createdForId String
   createdFor   User   @relation(name: "CreatedFor", references: [id], fields: [createdForId])
 }
