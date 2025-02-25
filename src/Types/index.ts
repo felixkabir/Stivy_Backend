@@ -39,6 +39,12 @@ export type ModelType = {
     files?: File[]
 }
 
+export type PostType = {
+    id: string;
+    content?: string;
+    type: string
+}
+
 export interface UserResponse extends UserType {
     online_status?: boolean | null
 }
