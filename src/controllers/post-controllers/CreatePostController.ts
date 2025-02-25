@@ -4,7 +4,7 @@ import { CreatePostService } from "../../services/post-services/CreatePostServic
 
 export class CreatePostController {
     async handle(request: Request, response: Response) {
-        const { entityId } = request.params
+        const { entityId, userId } = request.params
         const { content } = request.body
         const { type } = request.query
 
@@ -15,7 +15,7 @@ export class CreatePostController {
 
         const service = new CreatePostService()
 
-        const result = await service.execute({ entityId, content, type: String(type)})
+        const result = await service.execute({ userId, entityId, content, type: String(type)})
 
         response.json(result)
     }

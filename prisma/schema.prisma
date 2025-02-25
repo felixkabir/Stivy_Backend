@@ -112,6 +112,7 @@ model Post {
 model Notification {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
+  content    String
   is_readed  Boolean  @default(false)
 
   creatorId String

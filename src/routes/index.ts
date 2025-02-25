@@ -4,6 +4,7 @@ import { routes as postRoutes } from "./post-routes.routes";
 import { routes as authRoutes } from "./auth.routes";
 import { routes as agencyRoutes } from "./agency-routes.routes";
 import { routes as modelRoutes } from "./model-routes.routes";
+import { routes as notificationRoutes } from "./notification-routes.routes";
 
 const routes = Router()
 
@@ -21,5 +22,7 @@ routes.use("/agency", agencyRoutes)
 
 // ModelRoutes
 routes.use("/models", modelRoutes)
+
+routes.use("/notifications", notificationRoutes)
 
 export { routes }

@@ -51,6 +51,12 @@ class SocketConfig {
         }
         return this.io;
     }
+
+    sendNotification() {
+        if (this._socket) {
+            this._socket?.broadcast.emit("new_notification")
+        }
+    }
 }
 
 export default new SocketConfig();

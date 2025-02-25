@@ -7,12 +7,12 @@ import { DeletePostController } from "../controllers/post-controllers/DeletePost
 const routes = Router()
 
 
-routes.post("/create/:entityId?", new CreatePostController().handle);  // query?=type
+routes.post("/create/:entityId?/:userId?", new CreatePostController().handle);  // query?=type
 
-routes.get("/:postId?", new GetPostController().handle)
+routes.get("/:postId?", new GetPostController().handle);
 
-routes.put("/update/:postId", new UpdatePostController().handle)
+routes.put("/update/:postId", new UpdatePostController().handle);
 
-routes.delete("/delete/:postId?", new DeletePostController().handle)
+routes.delete("/delete/:postId?", new DeletePostController().handle);
 
 export { routes }
