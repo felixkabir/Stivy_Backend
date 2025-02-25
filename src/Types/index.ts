@@ -45,6 +45,18 @@ export type PostType = {
     type: string
 }
 
+export type EventType = {
+    id: string;
+    created_at: Date;
+    name: string
+    start_date: Date;
+    end_date: Date;
+    userId: string
+
+    file_url?: string;
+    file_key?: string
+}
+
 export interface UserResponse extends UserType {
     online_status?: boolean | null
 }

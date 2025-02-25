@@ -85,6 +85,9 @@ model Event {
   created_at DateTime @default(now())
   name       String
 
+  file_url String?
+  file_key String?
+
   start_date DateTime
   end_date   DateTime
 
