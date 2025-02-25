@@ -18,6 +18,7 @@ export class CreateModelController {
             waist,
             height,
             shoes,
+            contact,
             userId
         } = request.body
 
@@ -28,6 +29,7 @@ export class CreateModelController {
             userId,
             name,
             waist,
+            contact,
             shoes,
             height,
             file_key: String(request.file?.filename),

@@ -5,7 +5,7 @@ import { UpdateModelService } from "../../services/model-services/UpdateModelSer
 export class UpdateModelController {
     async handle(request: Request, response: Response) {
         const { modelId } = request.params
-        const { shoes, name, waist, height } = request.body
+        const { shoes, name, waist, height, contact } = request.body
 
         if (!modelId) {
             response.status(400).json({message: "Model Id is Required!"})
@@ -19,7 +19,8 @@ export class UpdateModelController {
             shoes,
             name,
             waist,
-            height
+            height,
+            contact
         })
 
         response.json(result)

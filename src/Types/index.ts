@@ -33,6 +33,7 @@ export type ModelType = {
     height: string;
     waist: string;
     shoes: string;
+    contact: string;
 
     userId: string
     files?: File[]

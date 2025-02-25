@@ -11,7 +11,7 @@ type ModelTypeRequest = ModelType & {
 }
 
 export class  CreateModelService {
-    async execute({ height, name, shoes, userId, waist, file_key, file_url, agencyId }: Omit<ModelTypeRequest, "id" | "files">): Promise<any> {
+    async execute({ height, name, shoes, userId, waist, file_key, file_url, agencyId, contact }: Omit<ModelTypeRequest, "id" | "files">): Promise<any> {
 
         const verifyAgency = await prisma.agency.findUnique({ where: { id: agencyId }})
 
@@ -29,6 +29,7 @@ export class  CreateModelService {
                 height,
                 shoes,
                 waist,
+                contact,
                 userId: user.id,
                 agencyId: verifyAgency.id
             }
