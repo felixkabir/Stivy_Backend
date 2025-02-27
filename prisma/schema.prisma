@@ -131,7 +131,7 @@ model FileEntity {
   file_key String
 
   modelId String?
-  model   ModelEntity?  @relation(references: [id], fields: [modelId], onDelete: Cascade)
+  model_entity   ModelEntity?  @relation(references: [id], fields: [modelId], onDelete: Cascade)
 
   postId String?
   post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)
