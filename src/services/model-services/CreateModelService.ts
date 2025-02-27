@@ -23,7 +23,7 @@ export class  CreateModelService {
 
         if(!verifyAgency) return null
 
-        const newModel = await prisma.model.create({
+        const newModel = await prisma.modelEntity.create({
             data: {
                 name,
                 height,

@@ -18,7 +18,7 @@ export class CreatePostService {
         }
 
         if (type === "MODEL") {
-            const model = await prisma.model.findUnique({ where: { id: entityId }})
+            const model = await prisma.modelEntity.findUnique({ where: { id: entityId }})
             const newPost = await prisma.post.create({
                 data: {
                     content,

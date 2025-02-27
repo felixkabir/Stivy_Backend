@@ -7,6 +7,6 @@ const routes = Router()
 
 routes.post("/user/login", new LoginController().handle)
 
-routes.put("/logout", new LogoutController().handle)
+routes.put("/user/logout", new LogoutController().handle)
 
 export { routes }

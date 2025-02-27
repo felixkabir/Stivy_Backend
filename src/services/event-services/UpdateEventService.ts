@@ -5,10 +5,10 @@ type EventTypeRequest = Omit<EventType, "created_at" | "userId">
 
 export class UpdateEventService {
     async execute({ id, name, start_date, end_date, file_key, file_url }: EventTypeRequest): Promise<any> {
-        const event = await prisma.event.findUnique({ where: { id } })
+        const event = await prisma.eventEntity.findUnique({ where: { id } })
 
         if (event) {
-            const newEvent = await prisma.event.update({
+            const newEvent = await prisma.eventEntity.update({
                 where: { id },
 
                 data: {

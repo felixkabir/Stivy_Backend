@@ -13,7 +13,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Model" (
+CREATE TABLE "ModelEntity" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "height" TEXT NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE "Model" (
     "userId" TEXT NOT NULL,
     "agencyId" TEXT,
 
-    CONSTRAINT "Model_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ModelEntity_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -57,7 +57,7 @@ CREATE TABLE "UserInterest" (
 );
 
 -- CreateTable
-CREATE TABLE "Event" (
+CREATE TABLE "EventEntity" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" TEXT NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE "Event" (
     "end_date" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "EventEntity_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -96,27 +96,27 @@ CREATE TABLE "Notification" (
 );
 
 -- CreateTable
-CREATE TABLE "File" (
+CREATE TABLE "FileEntity" (
     "id" TEXT NOT NULL,
     "file_url" TEXT NOT NULL,
     "file_key" TEXT NOT NULL,
     "modelId" TEXT,
     "postId" TEXT,
 
-    CONSTRAINT "File_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "FileEntity_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Model_userId_key" ON "Model"("userId");
+CREATE UNIQUE INDEX "ModelEntity_userId_key" ON "ModelEntity"("userId");
 
 -- AddForeignKey
-ALTER TABLE "Model" ADD CONSTRAINT "Model_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ModelEntity" ADD CONSTRAINT "ModelEntity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Model" ADD CONSTRAINT "Model_agencyId_fkey" FOREIGN KEY ("agencyId") REFERENCES "Agency"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ModelEntity" ADD CONSTRAINT "ModelEntity_agencyId_fkey" FOREIGN KEY ("agencyId") REFERENCES "Agency"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Agency" ADD CONSTRAINT "Agency_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -128,7 +128,7 @@ ALTER TABLE "UserInterest" ADD CONSTRAINT "UserInterest_userId_fkey" FOREIGN KEY
 ALTER TABLE "UserInterest" ADD CONSTRAINT "UserInterest_interestId_fkey" FOREIGN KEY ("interestId") REFERENCES "Interest"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "EventEntity" ADD CONSTRAINT "EventEntity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -137,7 +137,7 @@ ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFE
 ALTER TABLE "Post" ADD CONSTRAINT "Post_agencyId_fkey" FOREIGN KEY ("agencyId") REFERENCES "Agency"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Post" ADD CONSTRAINT "Post_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "Model"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Post" ADD CONSTRAINT "Post_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "ModelEntity"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -146,7 +146,7 @@ ALTER TABLE "Notification" ADD CONSTRAINT "Notification_creatorId_fkey" FOREIGN 
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_createdForId_fkey" FOREIGN KEY ("createdForId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "File" ADD CONSTRAINT "File_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "Model"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "FileEntity" ADD CONSTRAINT "FileEntity_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "ModelEntity"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "File" ADD CONSTRAINT "File_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "FileEntity" ADD CONSTRAINT "FileEntity_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;

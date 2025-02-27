@@ -25,14 +25,14 @@ model User {
   interests     UserInterest[]
   agencies      Agency[]
 
-  model                 Model?
+  model_entity                 ModelEntity?
   Post                  Post[]
-  Event                 Event[]
+  event_entity                 EventEntity[]
   createdNotifications  Notification[] @relation(name: "Creator")
   receivedNotifications Notification[] @relation(name: "CreatedFor")
 }
 
-model Model {
+model ModelEntity {
   id      String @id @default(uuid())
   name    String
   height  String
@@ -46,7 +46,7 @@ model Model {
 
   agencyId String?
   agency   Agency? @relation(references: [id], fields: [agencyId], onDelete: Cascade)
-  File     File[]
+  file_entity     FileEntity[]
 }
 
 model Agency {
@@ -61,7 +61,7 @@ model Agency {
   userId  String
   creator User    @relation(references: [id], fields: [userId], onDelete: Cascade)
   Post    Post[]
-  Model   Model[]
+  Model   ModelEntity[]
 }
 
 model Interest {
@@ -80,7 +80,7 @@ model UserInterest {
   @@id([userId, interestId]) // Chave primária composta
 }
 
-model Event {
+model EventEntity {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
   name       String
@@ -108,8 +108,8 @@ model Post {
 
   user   User?   @relation(references: [id], fields: [userId])
   agency Agency? @relation(references: [id], fields: [agencyId])
-  model  Model?  @relation(references: [id], fields: [modelId])
-  File   File[]
+  model_entity  ModelEntity?  @relation(references: [id], fields: [modelId])
+  file_entity   FileEntity[]
 }
 
 model Notification {
@@ -125,13 +125,13 @@ model Notification {
   createdFor   User   @relation(name: "CreatedFor", references: [id], fields: [createdForId])
 }
 
-model File {
+model FileEntity {
   id       String @id @default(uuid())
   file_url String
   file_key String
 
   modelId String?
-  model   Model?  @relation(references: [id], fields: [modelId], onDelete: Cascade)
+  model   ModelEntity?  @relation(references: [id], fields: [modelId], onDelete: Cascade)
 
   postId String?
   post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)

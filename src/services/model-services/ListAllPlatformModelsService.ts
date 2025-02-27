@@ -4,10 +4,10 @@ import { prisma } from "../../PrismaHandler";
 export class ListAllPlatformModelsService {
     async execute(): Promise<any> {
 
-        const allPlatFormModels = await prisma.model.findMany({
+        const allPlatFormModels = await prisma.modelEntity.findMany({
             include: {
                 agency: true,
-                File: true,
+                file_entity: true,
             }
         })
 

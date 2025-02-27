@@ -1,5 +1,4 @@
 import { prisma } from "../../PrismaHandler";
-import { AgencyType } from "../../Types";
 
 
 type AgenCyTypeRequest = {

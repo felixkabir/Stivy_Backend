@@ -7,12 +7,12 @@ type ModelTypeRequest = Partial<Omit<ModelType, "files" | "userId">>
 export class UpdateModelService {
     async execute({ id, height, name, shoes, waist, contact}: ModelTypeRequest): Promise<any> {
 
-        const model = await prisma.model.findUnique({
+        const model = await prisma.modelEntity.findUnique({
             where: { id }
         })
 
         if (model) {
-            const updatedModel = await prisma.model.update({
+            const updatedModel = await prisma.modelEntity.update({
                 where: { id: model.id },
                 data: {
                     name: name ? name : model.name,

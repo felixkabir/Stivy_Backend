@@ -7,7 +7,7 @@ type EventTypeRequest = {
 export class GetAllUserEventsService {
     async execute({ userId }: EventTypeRequest): Promise<any> {
 
-        const allUserEvents = await prisma.event.findMany({
+        const allUserEvents = await prisma.eventEntity.findMany({
             where: { userId }
         })
 

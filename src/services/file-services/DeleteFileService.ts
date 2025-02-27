@@ -10,17 +10,17 @@ export class DeleteFileService {
     async execute({ entity_id, entity_type }: DeleteFileTypeRequest): Promise<any> {
 
         if (entity_type === "MODEL") {
-            const modelsFileToDelete = await prisma.file.findMany({ where: { modelId: entity_id }})
+            const modelsFileToDelete = await prisma.fileEntity.findMany({ where: { modelId: entity_id }})
 
             for (const file of modelsFileToDelete) {
-                await prisma.file.delete({ where: { id: file.id }})
+                await prisma.fileEntity.delete({ where: { id: file.id }})
                 await deleteFile(file.file_key)
             }
         } else {
-            const postFileToDelete = await prisma.file.findMany({ where: { postId: entity_id }})
+            const postFileToDelete = await prisma.fileEntity.findMany({ where: { postId: entity_id }})
 
             for (const file of postFileToDelete) {
-                await prisma.file.delete({ where: { id: file.id }})
+                await prisma.fileEntity.delete({ where: { id: file.id }})
                 await deleteFile(file.file_key)
             }
         }

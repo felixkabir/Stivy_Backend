@@ -7,12 +7,12 @@ type AgenCyTypeRequest = {
 export class GetAgencyModelsService {
     async execute({ agenceId }: AgenCyTypeRequest): Promise<any> {
 
-        const allAgencyModels = await prisma.model.findMany({
+        const allAgencyModels = await prisma.modelEntity.findMany({
             where: {
                 agencyId: agenceId
             },
 
-            include: { File: true}
+            include: { file_entity: true}
         })
 
         return allAgencyModels
