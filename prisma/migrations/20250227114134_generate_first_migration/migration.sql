@@ -7,6 +7,7 @@ CREATE TABLE "User" (
     "file_key" TEXT,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "online_status" BOOLEAN DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -18,7 +19,9 @@ CREATE TABLE "Model" (
     "height" TEXT NOT NULL,
     "waist" TEXT NOT NULL,
     "shoes" TEXT NOT NULL,
+    "contact" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
+    "agencyId" TEXT,
 
     CONSTRAINT "Model_pkey" PRIMARY KEY ("id")
 );
@@ -58,6 +61,8 @@ CREATE TABLE "Event" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" TEXT NOT NULL,
+    "file_url" TEXT,
+    "file_key" TEXT,
     "start_date" TIMESTAMP(3) NOT NULL,
     "end_date" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
@@ -71,8 +76,6 @@ CREATE TABLE "Post" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "content" TEXT,
     "type" TEXT,
-    "file_urls" TEXT[] DEFAULT ARRAY[]::TEXT[],
-    "file_keys" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "userId" TEXT,
     "agencyId" TEXT,
     "modelId" TEXT,
@@ -84,12 +87,23 @@ CREATE TABLE "Post" (
 CREATE TABLE "Notification" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "content" TEXT NOT NULL,
     "is_readed" BOOLEAN NOT NULL DEFAULT false,
-    "userId" TEXT,
     "creatorId" TEXT NOT NULL,
     "createdForId" TEXT NOT NULL,
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "File" (
+    "id" TEXT NOT NULL,
+    "file_url" TEXT NOT NULL,
+    "file_key" TEXT NOT NULL,
+    "modelId" TEXT,
+    "postId" TEXT,
+
+    CONSTRAINT "File_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -100,6 +114,9 @@ CREATE UNIQUE INDEX "Model_userId_key" ON "Model"("userId");
 
 -- AddForeignKey
 ALTER TABLE "Model" ADD CONSTRAINT "Model_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Model" ADD CONSTRAINT "Model_agencyId_fkey" FOREIGN KEY ("agencyId") REFERENCES "Agency"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Agency" ADD CONSTRAINT "Agency_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -127,3 +144,9 @@ ALTER TABLE "Notification" ADD CONSTRAINT "Notification_creatorId_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_createdForId_fkey" FOREIGN KEY ("createdForId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD CONSTRAINT "File_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "Model"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD CONSTRAINT "File_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
