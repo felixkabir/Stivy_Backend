@@ -5,7 +5,7 @@ import { LogoutController } from "../controllers/auth-controllers/LogoutControll
 
 const routes = Router()
 
-routes.post("/login", new LoginController().handle)
+routes.post("/user/login", new LoginController().handle)
 
 routes.put("/logout", new LogoutController().handle)
 
