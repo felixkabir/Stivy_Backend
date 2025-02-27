@@ -8,7 +8,7 @@ export class UpdateEventService {
         const event = await prisma.eventEntity.findUnique({ where: { id } })
 
         if (event) {
-            const newEvent = await prisma.eventEntity.update({
+            await prisma.eventEntity.update({
                 where: { id },
 
                 data: {

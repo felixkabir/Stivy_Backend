@@ -11,7 +11,7 @@ export class GetAgencyService {
         if (agenceId) {
             const agencyes = await prisma.agency.findUnique({
                 where: { id: agenceId },
-                include: { Model: true}
+                include: { models: true}
             })
 
             if (!agencyes) {
@@ -22,7 +22,7 @@ export class GetAgencyService {
         }
 
         const agencies = await prisma.agency.findMany({
-            include: { Model: true}
+            include: { models: true}
         })
 
         return agencies

@@ -11,7 +11,7 @@ export class GetUserAgencyService {
         const [allUserAgencies, total] = await prisma.$transaction([
             prisma.agency.findMany({
                 where: { userId },
-                include: { creator: true, Model: true }
+                include: { creator: true, models: true }
             }),
 
             prisma.agency.count({

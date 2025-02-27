@@ -61,7 +61,7 @@ model Agency {
   userId  String
   creator User    @relation(references: [id], fields: [userId], onDelete: Cascade)
   Post    Post[]
-  Model   ModelEntity[]
+  models   ModelEntity[]
 }
 
 model Interest {
