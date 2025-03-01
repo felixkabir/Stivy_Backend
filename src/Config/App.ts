@@ -4,6 +4,7 @@ import express from "express";
 import { Server as HttpServer, createServer } from "http";
 import SocketConfig from "../sockets/index"
 import { routes } from "../routes";
+import path from "path";
 
 // @types/prisma typescript nodemon @types/jsonwebtoken
 export class App {
@@ -22,6 +23,9 @@ export class App {
 
     middlewares() {
         this.app.use(express.json())
+
+        // Servindo arquivos estáticos
+        this.app.use('/files', express.static(path.resolve(__dirname, '..', 'Files')));
     }
 
     routes() {
