@@ -17,7 +17,9 @@ export class GetPostService {
             return post
         }
 
-        const allPosts = await prisma.post.findMany()
+        const allPosts = await prisma.post.findMany({
+            include: { file_entity: true }
+        })
 
         return allPosts
     }
