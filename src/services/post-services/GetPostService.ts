@@ -12,7 +12,7 @@ export class GetPostService {
             const post = await prisma.post.findUnique({
                 where: { id: postId },
                 include: { file_entity: true }
-            })        
+            })
 
             return post
         }
