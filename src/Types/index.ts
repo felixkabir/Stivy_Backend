@@ -21,11 +21,11 @@ export type AgencyType = {
     creator?: UserType
 }
 
-export type FileType = {
-    id: string;
-    file_url: string;
-    file_key: string;
-}
+// export type FileType = {
+//     id: string;
+//     file_url: string;
+//     file_key: string;
+// }
 
 export type ModelType = {
     id: string;
@@ -34,6 +34,8 @@ export type ModelType = {
     waist: string;
     shoes: string;
     contact: string;
+    file_key?: string;
+    file_url?: string;
 
     userId: string
     files?: File[]

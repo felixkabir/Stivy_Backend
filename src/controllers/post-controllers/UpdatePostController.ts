@@ -7,6 +7,11 @@ export class UpdatePostController {
         const { postId } = request.params
         const { content } = request.body
 
+        if (!postId) {
+            response.json({message: "Post id is required to update."})
+            return
+        }
+
         const service = new UpdatePostService()
 
         const result = await service.execute({ postId, content })

@@ -1,27 +1,53 @@
 import { prisma } from "../../PrismaHandler";
-import { FileType } from "../../Types";
 
-type FileTypeRequest = FileType & {
-    entity_type: "MODEL" | "POST",
+type FileTypeRequest = {
+    files?: Express.Multer.File[]
     entity_id?: string
+    entity_type?: string;
 }
 
+
 export class CreateFileService {
-    async execute({ file_key, file_url, entity_type, entity_id }: Omit<FileTypeRequest, "id">): Promise<any>{
+    async execute({ files, entity_id, entity_type }: FileTypeRequest): Promise<any> {
 
         if (entity_type === "MODEL") {
-            await prisma.fileEntity.create({
-                data: {
-                    file_key, file_url, modelId: entity_id
-                }
-            })
-        } else {
-            await prisma.fileEntity.create({
-                data: {
-                    file_url, file_key, postId: entity_id
-                }
-            })
-        }
+            if (files && files.length) {
+                for (const file of files) {
+                    await prisma.fileEntity.create({
+                        data: {
+                            file_key: file.filename,
+                            file_url: file.path,
+                            modelId: entity_id,
+                        }
+                    })                    
+                }            
+            }
 
+        } else if (entity_type === "AGENCY") {
+            if (files && files.length) {
+                for (const file of files) {
+                    await prisma.fileEntity.create({
+                        data: {
+                            file_key: file.filename,
+                            file_url: file.path,
+                            postId: entity_id
+                        }
+                    })
+                }
+            }
+
+        } else {
+            if (files && files.length) {
+                for (const file of files) {
+                    await prisma.fileEntity.create({
+                        data: {
+                            file_key: file.filename,
+                            file_url: file.path,
+                            postId: entity_id
+                        }
+                    })                    
+                }            
+            }
+        }
     }
 }

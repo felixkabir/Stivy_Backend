@@ -5,14 +5,18 @@ import fs from "fs"
 
 // Define o diretório onde os arquivos serão armazenados
 const uploadsDest = resolve(__dirname, "../Files");
-const existPath = fs.existsSync(uploadsDest)
 
-if (!existPath) {
-    fs.mkdirSync(uploadsDest)
+const checkIfPathExistToCreate = () => {
+    const existPath = fs.existsSync(uploadsDest)
+    
+    if (!existPath) {
+        fs.mkdirSync(uploadsDest)
+    }    
 }
 
 const storage = diskStorage({
     destination: (req, file, cb) => {
+        checkIfPathExistToCreate()
         cb(null, uploadsDest); // Diretório onde os arquivos serão armazenados
     },
     filename: (req, file, cb) => {
@@ -20,9 +24,6 @@ const storage = diskStorage({
         cb(null, `stivy_${Date.now()}-${file.originalname}`);
     }
 });
-
-// Inicializa o multer com a configuração de armazenamento
-const upload = multer({ storage: storage });
 
 const multerConfig: Options = {
     storage,

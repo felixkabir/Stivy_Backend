@@ -25,28 +25,30 @@ model User {
   interests     UserInterest[]
   agencies      Agency[]
 
-  model_entity                 ModelEntity?
+  model_entity          ModelEntity?
   Post                  Post[]
-  event_entity                 EventEntity[]
+  event_entity          EventEntity[]
   createdNotifications  Notification[] @relation(name: "Creator")
   receivedNotifications Notification[] @relation(name: "CreatedFor")
 }
 
 model ModelEntity {
-  id      String @id @default(uuid())
-  name    String
-  height  String
-  waist   String
-  shoes   String
-  contact String
+  id       String  @id @default(uuid())
+  name     String
+  height   String
+  waist    String
+  shoes    String
+  contact  String
+  file_url String?
+  file_key String?
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
   Post   Post[]
 
-  agencyId String?
-  agency   Agency? @relation(references: [id], fields: [agencyId], onDelete: Cascade)
-  file_entity     FileEntity[]
+  agencyId    String?
+  agency      Agency?      @relation(references: [id], fields: [agencyId], onDelete: Cascade)
+  file_entity FileEntity[]
 }
 
 model Agency {
@@ -59,9 +61,9 @@ model Agency {
   contact  String
 
   userId  String
-  creator User    @relation(references: [id], fields: [userId], onDelete: Cascade)
+  creator User          @relation(references: [id], fields: [userId], onDelete: Cascade)
   Post    Post[]
-  models   ModelEntity[]
+  models  ModelEntity[]
 }
 
 model Interest {
@@ -106,10 +108,10 @@ model Post {
   agencyId String?
   modelId  String?
 
-  user   User?   @relation(references: [id], fields: [userId])
-  agency Agency? @relation(references: [id], fields: [agencyId])
-  model_entity  ModelEntity?  @relation(references: [id], fields: [modelId])
-  file_entity   FileEntity[]
+  user         User?        @relation(references: [id], fields: [userId])
+  agency       Agency?      @relation(references: [id], fields: [agencyId])
+  model_entity ModelEntity? @relation(references: [id], fields: [modelId])
+  file_entity  FileEntity[]
 }
 
 model Notification {
@@ -130,8 +132,8 @@ model FileEntity {
   file_url String
   file_key String
 
-  modelId String?
-  model_entity   ModelEntity?  @relation(references: [id], fields: [modelId], onDelete: Cascade)
+  modelId      String?
+  model_entity ModelEntity? @relation(references: [id], fields: [modelId], onDelete: Cascade)
 
   postId String?
   post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)

@@ -33,7 +33,7 @@ export class CreateModelController {
             shoes,
             height,
             file_key: String(request.file?.filename),
-            file_url: String(request.file?.path)
+            file_url: String(request.file?.path),
         })
 
         if (result == null) {

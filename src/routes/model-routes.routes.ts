@@ -6,6 +6,7 @@ import { GetAgencyModelsController } from "../controllers/model-controllers/GetA
 import { ListAllPlatformModelsController } from "../controllers/model-controllers/ListAllPlatformModelsController";
 import { DeleteModelsFromAnAgencyController } from "../controllers/model-controllers/DeleteModelsFromAnAgencyController";
 import { UpdateModelController } from "../controllers/model-controllers/UpdateModelController";
+import { DeleteModelFileController } from "../controllers/model-controllers/DeleteModelFileController";
 
 const routes = Router()
 
@@ -18,5 +19,7 @@ routes.get("/", new ListAllPlatformModelsController().handle);
 routes.put("/update/:modelId?", new UpdateModelController().handle);
 
 routes.delete("/delete/:agencyId/:agencyOwnerId", new DeleteModelsFromAnAgencyController().handle);
+
+routes.delete("/files/delete/:modelId/:fileId", new DeleteModelFileController().handle)
 
 export { routes }
