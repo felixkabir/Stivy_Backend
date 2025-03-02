@@ -64,6 +64,6 @@ export interface UserResponse extends UserType {
 }
 
 export type InterestType = {
-    type: "MODEL" | "MODEL_FREELANCE" | "PHOTOGRAPH" | "PHOTOGRAPH_FREELANCE" | "MODE_LOVER";
+    type: string;
     name: string
 }

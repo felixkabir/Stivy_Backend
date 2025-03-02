@@ -5,6 +5,9 @@ import { Server as HttpServer, createServer } from "http";
 import SocketConfig from "../sockets/index"
 import { routes } from "../routes";
 import path from "path";
+import { checkIfInterestExist } from "../helpers/checkIfInterestExist";
+import { InterestType } from "../Types";
+import { DEFAULT_INTERESTS } from "../utils/default-interests";
 
 // @types/prisma typescript nodemon @types/jsonwebtoken
 export class App {
@@ -21,11 +24,15 @@ export class App {
         this.sockets();
     }
 
-    middlewares() {
+    async middlewares() {
         this.app.use(express.json())
 
         // Servindo arquivos estáticos
         this.app.use('/files', express.static(path.resolve(__dirname, '..', 'Files')));
+        
+        for (const role of DEFAULT_INTERESTS) {
+            await checkIfInterestExist({ name: role.name, type: role.type })
+        }
     }
 
     routes() {

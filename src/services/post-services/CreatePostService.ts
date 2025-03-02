@@ -89,14 +89,15 @@ export class CreatePostService {
                 data: {
                     content,
                     type: "USER",
-                    userId: creator?.id
+                    userId: creator?.id,
                 }
             })
 
-            const resultPost = await prisma.post.findUnique({
+            const resultPost = await prisma.post.findMany({
                 where: {
-                    id: newPost.id
+                    userId: newPost.userId
                 },
+                orderBy: { created_at: "desc"},
                 include: { file_entity: true, model_entity: true, user: true }
             })
 
@@ -108,7 +109,7 @@ export class CreatePostService {
                 users: allUsers
             })
 
-            return resultPost
+            return resultPost[0]
         }
     }
 }

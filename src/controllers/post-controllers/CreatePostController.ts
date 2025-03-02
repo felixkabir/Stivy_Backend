@@ -12,7 +12,7 @@ export class CreatePostController {
 
         try {
             const service = new CreatePostService()
-    
+
             const result = await service.execute({
                 entityId,
                 content,
