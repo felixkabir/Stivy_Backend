@@ -14,7 +14,8 @@ export class CreateEventService {
                 userId,
                 file_key,
                 file_url,
-            }
+            },
+            include: {user: true}
         })
 
         return newEvent

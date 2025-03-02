@@ -15,7 +15,7 @@ export class CreatePostController {
         const result = await service.execute({
             entityId,
             content,
-            type: String(type),
+            type: String(type).toUpperCase(),
             files: request.files as any
         })
 

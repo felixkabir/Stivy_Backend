@@ -8,28 +8,31 @@ export class CreateAgencyController {
         const { userId } = request.params
         const { name, contact } = request.body
 
-        if (!userId) {
-            await deleteFile(String(request.file?.filename))
-            response.status(400).json({message: "Id is required!"})
-            return                
-        }
+        try {
+            if (!userId) {
+                await deleteFile(String(request.file?.filename))
+                response.status(400).json({ message: "Id is required!" })
+                return
+            }
+            if (name.length > 0 && contact.length > 0) {
+                const service = new CreateAgencyService()
 
-        if (name.length > 0 && contact.length > 0) {
-            const service = new CreateAgencyService()
-    
-            const result = await service.execute({
-                userId: String(userId),
-                name,
-                contact,
-                file_key: String(request.file?.filename),
-                file_url: String(request.file?.path)
-            })
-            
-            response.json(result)
-            return            
-        } else {
-            response.status(400).json({message: "Por favor, preencha todos os campos."})
-        }
+                const result = await service.execute({
+                    userId: String(userId),
+                    name,
+                    contact,
+                    file_key: String(request.file?.filename),
+                    file_url: String(request.file?.path)
+                })
 
+                response.json(result)
+                return
+            } else {
+                response.status(400).json({ message: "Por favor, preencha todos os campos." })
+            }
+
+        } catch (error: any) {
+            response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
+        }
     }
 }

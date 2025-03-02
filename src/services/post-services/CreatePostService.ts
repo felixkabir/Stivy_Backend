@@ -39,7 +39,15 @@ export class CreatePostService {
                 users: allUsers
             })
 
-            return newPost
+            const resultPost = await prisma.post.findUnique({
+                where: {
+                    id: newPost.id
+                },
+                include: { file_entity: true, model_entity: true, user: true }
+            })
+
+            return resultPost
+
         } else if (type === "AGENCY") {
             const agency = await prisma.agency.findUnique({ where: { id: entityId }})
             const newPost = await prisma.post.create({
@@ -58,7 +66,15 @@ export class CreatePostService {
                 users: allUsers
             })
 
-            return newPost
+            const resultPost = await prisma.post.findUnique({
+                where: {
+                    id: newPost.id
+                },
+                include: { file_entity: true, model_entity: true, user: true }
+            })
+
+            return resultPost
+
         } else {
             const user = await prisma.user.findUnique({ where: { id: entityId }})
             const newPost = await prisma.post.create({
@@ -69,6 +85,13 @@ export class CreatePostService {
                 }
             })
 
+            const resultPost = await prisma.post.findUnique({
+                where: {
+                    id: newPost.id
+                },
+                include: { file_entity: true, model_entity: true, user: true }
+            })
+
             await fileService.execute({ entity_type: type, entity_id: newPost.id, files: files})
 
             await new GenerateNotificationsToAllUsersService().execute({
@@ -77,7 +100,7 @@ export class CreatePostService {
                 users: allUsers
             })
 
-            return newPost
+            return resultPost
         }
     }
 }
