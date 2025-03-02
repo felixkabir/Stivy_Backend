@@ -77,7 +77,7 @@ enum InterestSelect {
 model Interest {
   id         String         @id @default(uuid())
   created_at DateTime       @default(now())
-  type       InterestSelect @default(MODE_LOVER)    @unique
+  interest_type       InterestSelect @default(MODE_LOVER)    @unique
   name       String
   users      UserInterest[]
 }
@@ -111,7 +111,7 @@ model Post {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
 
-  is_work_model Boolean? @default(false)
+  is_work_model Boolean?
 
   content String?
   type    String?
