@@ -77,7 +77,7 @@ enum InterestSelect {
 model Interest {
   id         String         @id @default(uuid())
   created_at DateTime       @default(now())
-  interest_type       InterestSelect @default(MODE_LOVER)    @unique
+  interest_type       InterestSelect @default(MODE_LOVER)
   name       String
   users      UserInterest[]
 }
