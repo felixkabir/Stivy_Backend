@@ -67,11 +67,11 @@ model Agency {
 }
 
 model Interest {
-  id         String         @id @default(uuid())
-  created_at DateTime       @default(now())
-  interest_type       String @default("MODEL_LOVER")
-  name String
-  users      UserInterest[]
+  id            String         @id @default(uuid())
+  created_at    DateTime       @default(now())
+  interest_type String         @default("MODEL_LOVER")
+  name          String
+  users         UserInterest[]
 }
 
 model UserInterest {
