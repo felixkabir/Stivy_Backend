@@ -11,24 +11,30 @@ export class UpdateUserController {
 
         const service = new UpdateUserService()
 
-        if (!userId) {
-            deleteFile(String(request.file?.filename))
-            response.status(400).json({message: "Please, enter the user id to update"})
-            return
+        try {
+            
+            if (!userId) {
+                deleteFile(String(request.file?.filename))
+                response.status(400).json({message: "Please, enter the user id to update"})
+                return
+            }
+    
+            if(userId && !validate(userId)) {
+                deleteFile(String(request.file?.filename))
+                response.status(400).json({message: "Invalid user id!"})
+                return
+            }
+    
+            const result = await service.execute({
+                id: userId,
+                email,
+                username,
+            })
+    
+            response.json(result)
+        } catch (error: any) {
+            response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
         }
 
-        if(userId && !validate(userId)) {
-            deleteFile(String(request.file?.filename))
-            response.status(400).json({message: "Invalid user id!"})
-            return
-        }
-
-        const result = await service.execute({
-            id: userId,
-            email,
-            username,
-        })
-
-        response.json(result)
     }
 }
