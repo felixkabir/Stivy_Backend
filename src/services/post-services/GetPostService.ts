@@ -11,14 +11,14 @@ export class GetPostService {
         if (postId) {
             const post = await prisma.post.findUnique({
                 where: { id: postId },
-                include: { file_entity: true }
+                include: { file_entity: true, user: true }
             })
 
             return post
         }
 
         const allPosts = await prisma.post.findMany({
-            include: { file_entity: true }
+            include: { file_entity: true, user: true }
         })
 
         return allPosts
