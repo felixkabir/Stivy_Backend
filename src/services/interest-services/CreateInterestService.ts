@@ -11,7 +11,7 @@ export class CreateInterestService {
         await prisma.interest.create({
             data: {
                 name,
-                type
+                interest_type: type
             }
         })
     }
