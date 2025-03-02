@@ -1,5 +1,6 @@
 import { prisma } from "../../PrismaHandler";
-import { CreatePostService } from "../post-services/CreatePostService";
+import { CreateFileService } from "../file-services/CreateFileService";
+
 
 type ModelFileTypeRequest = {
     modelId: string;
@@ -13,13 +14,23 @@ export class UploadModelFilesService {
             where: { id: modelId }
         })
 
-        const postService = new CreatePostService()
+        const fileService = new CreateFileService()
 
         if (model) {
-            await postService.execute({ type: "MODEL", content, entityId: model.id, files })
+            
+            const post = await prisma.post.create({
+                data: {
+                    modelId: model.id,
+                    content,
+                    type: "MODEL",
+                    is_work_model: true
+                }
+            })
+
+            await fileService.execute({ entity_id: model.id, files: files, entity_type: "MODEL", post_id: post.id })
 
             const modelFilesUploadeds = await prisma.post.findMany({
-                where: { userId: model.userId },
+                where: { modelId: model.id, is_work_model: true },
                 orderBy: { created_at: "desc"},
                 include: { model_entity: true, file_entity: true }
             })

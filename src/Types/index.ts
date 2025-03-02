@@ -62,3 +62,8 @@ export type EventType = {
 export interface UserResponse extends UserType {
     online_status?: boolean | null
 }
+
+export type InterestType = {
+    type: "MODEL" | "MODEL_FREELANCE" | "PHOTOGRAPH" | "PHOTOGRAPH_FREELANCE" | "MODE_LOVER";
+    name: string
+}

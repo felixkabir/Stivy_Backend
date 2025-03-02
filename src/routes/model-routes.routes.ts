@@ -8,6 +8,7 @@ import { DeleteModelsFromAnAgencyController } from "../controllers/model-control
 import { UpdateModelController } from "../controllers/model-controllers/UpdateModelController";
 import { DeleteModelFileController } from "../controllers/model-controllers/DeleteModelFileController";
 import { UploadModelFilesController } from "../controllers/model-controllers/UploadModelFilesController";
+import { GetModelFilesController } from "../controllers/model-controllers/GetModelFilesController";
 
 const routes = Router()
 
@@ -18,6 +19,8 @@ routes.post("/files/upload/:modelId?", multer(multerConfig).any(), new UploadMod
 routes.get("/agency-list/:agenceId?", new GetAgencyModelsController().handle);
 
 routes.get("/", new ListAllPlatformModelsController().handle);
+
+routes.get("/files/:modelId?", new GetModelFilesController().handle);
 
 routes.put("/update/:modelId?", new UpdateModelController().handle);
 

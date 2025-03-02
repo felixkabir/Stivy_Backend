@@ -66,9 +66,18 @@ model Agency {
   models  ModelEntity[]
 }
 
+enum InterestSelect {
+  MODEL
+  MODEL_FREELANCE
+  PHOTOGRAPH
+  PHOTOGRAPH_FREELANCE
+  MODE_LOVER
+}
+
 model Interest {
   id         String         @id @default(uuid())
   created_at DateTime       @default(now())
+  type       InterestSelect @default(MODE_LOVER)    @unique
   name       String
   users      UserInterest[]
 }
@@ -101,6 +110,8 @@ model EventEntity {
 model Post {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
+
+  is_work_model Boolean? @default(false)
 
   content String?
   type    String?

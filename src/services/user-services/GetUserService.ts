@@ -11,7 +11,8 @@ export class GetUserService {
 
         if (userId) {
             const user = await prisma.user.findUnique({
-                where: { id: userId }
+                where: { id: userId },
+                include: { agencies: true }
             })
             if (user) {
                 return user                
@@ -20,7 +21,9 @@ export class GetUserService {
             return null
 
         } else {
-            const users = await prisma.user.findMany()
+            const users = await prisma.user.findMany({
+                include: { agencies: true }
+            })
 
             return users
         }
