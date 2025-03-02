@@ -7,41 +7,47 @@ export class CreateModelController {
     async handle(request: Request, response: Response) {
         const { agencyId } = request.params
 
-        if(!agencyId) {
-            await deleteFile(String(request.file?.filename))
-            response.status(400).json({message: "Agency Id is Required!"})
-            return
+        try {
+            
+            if(!agencyId) {
+                await deleteFile(String(request.file?.filename))
+                response.status(400).json({message: "Agency Id is Required!"})
+                return
+            }
+    
+            const {
+                name,
+                waist,
+                height,
+                shoes,
+                contact,
+                userId
+            } = request.body
+    
+            const service = new CreateModelService()
+    
+            const result = await service.execute({
+                agencyId,
+                userId,
+                name,
+                waist,
+                contact,
+                shoes,
+                height,
+                file_key: String(request.file?.filename),
+                file_url: String(request.file?.path),
+            })
+    
+            if (result == null) {
+                await deleteFile(String(request.file?.filename))
+                response.status(404).json({message: "Agency does not exist!"})
+                return
+            }
+    
+            response.json(result)
+        } catch (error: any) {
+            response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
         }
 
-        const {
-            name,
-            waist,
-            height,
-            shoes,
-            contact,
-            userId
-        } = request.body
-
-        const service = new CreateModelService()
-
-        const result = await service.execute({
-            agencyId,
-            userId,
-            name,
-            waist,
-            contact,
-            shoes,
-            height,
-            file_key: String(request.file?.filename),
-            file_url: String(request.file?.path),
-        })
-
-        if (result == null) {
-            await deleteFile(String(request.file?.filename))
-            response.status(404).json({message: "Agency does not exist!"})
-            return
-        }
-
-        response.json(result)
     }
 }

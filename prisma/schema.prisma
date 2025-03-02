@@ -86,6 +86,7 @@ model EventEntity {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
   name       String
+  location   String?
 
   file_url String?
   file_key String?
