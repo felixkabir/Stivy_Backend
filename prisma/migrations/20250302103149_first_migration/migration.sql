@@ -20,6 +20,8 @@ CREATE TABLE "ModelEntity" (
     "waist" TEXT NOT NULL,
     "shoes" TEXT NOT NULL,
     "contact" TEXT NOT NULL,
+    "file_url" TEXT,
+    "file_key" TEXT,
     "userId" TEXT NOT NULL,
     "agencyId" TEXT,
 
@@ -43,6 +45,7 @@ CREATE TABLE "Agency" (
 CREATE TABLE "Interest" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "interest_type" TEXT NOT NULL DEFAULT 'MODEL_LOVER',
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Interest_pkey" PRIMARY KEY ("id")
@@ -61,6 +64,7 @@ CREATE TABLE "EventEntity" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" TEXT NOT NULL,
+    "location" TEXT,
     "file_url" TEXT,
     "file_key" TEXT,
     "start_date" TIMESTAMP(3) NOT NULL,
@@ -74,6 +78,7 @@ CREATE TABLE "EventEntity" (
 CREATE TABLE "Post" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "is_work_model" BOOLEAN,
     "content" TEXT,
     "type" TEXT,
     "userId" TEXT,
