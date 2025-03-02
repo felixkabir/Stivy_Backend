@@ -103,7 +103,7 @@ model Post {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
 
-  is_work_model Boolean?
+  is_work_model Boolean?  @default(false)
 
   content String?
   type    String?
