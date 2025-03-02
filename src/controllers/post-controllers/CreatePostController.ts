@@ -10,24 +10,28 @@ export class CreatePostController {
         const { content } = request.body
         const { type } = request.query
 
-        const service = new CreatePostService()
-
-        const result = await service.execute({
-            entityId,
-            content,
-            type: String(type).toUpperCase(),
-            files: request.files as any
-        })
-
-        if (!result) {
-            const allFiles = request.files as any
-
-            allFiles.forEach(async(file: Express.Multer.File) => {
-                await deleteFile(String(file.filename))
-                console.log("File eliminada")
-            });
+        try {
+            const service = new CreatePostService()
+    
+            const result = await service.execute({
+                entityId,
+                content,
+                type: String(type).toUpperCase(),
+                files: request.files as any
+            })
+    
+            if (!result) {
+                const allFiles = request.files as any
+    
+                allFiles.forEach(async(file: Express.Multer.File) => {
+                    await deleteFile(String(file.filename))
+                });
+            }
+    
+            response.json(result)
+            
+        } catch (error: any) {
+            response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})            
         }
-
-        response.json(result)
     }
 }

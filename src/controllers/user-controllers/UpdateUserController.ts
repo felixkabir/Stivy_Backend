@@ -19,7 +19,7 @@ export class UpdateUserController {
 
         if(userId && !validate(userId)) {
             deleteFile(String(request.file?.filename))
-            response.status(400).json({message: "Please, enter the user id to update"})
+            response.status(400).json({message: "Invalid user id!"})
             return
         }
 

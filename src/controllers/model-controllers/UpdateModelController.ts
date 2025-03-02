@@ -7,22 +7,27 @@ export class UpdateModelController {
         const { modelId } = request.params
         const { shoes, name, waist, height, contact } = request.body
 
-        if (!modelId) {
-            response.status(400).json({message: "Model Id is Required!"})
-            return
+        try {
+            if (!modelId) {
+                response.status(400).json({message: "Model Id is Required!"})
+                return
+            }
+    
+            const service = new UpdateModelService()
+    
+            const result = await service.execute({
+                id: modelId,
+                shoes,
+                name,
+                waist,
+                height,
+                contact
+            })
+    
+            response.json(result)
+            
+        } catch (error: any) {
+            response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
         }
-
-        const service = new UpdateModelService()
-
-        const result = await service.execute({
-            id: modelId,
-            shoes,
-            name,
-            waist,
-            height,
-            contact
-        })
-
-        response.json(result)
     }
 }
