@@ -13,16 +13,26 @@ export class CreatePostService {
     async execute({ type, content, entityId, files }: PostTypeRequest): Promise<any> {
 
         const creator = await prisma.user.findUnique({ where: { id: entityId }})
+
+        const model = await prisma.modelEntity.findUnique({
+            where: { id: entityId },
+            include: { user: true }        
+        })
+
+        const agency = await prisma.agency.findUnique({ 
+            where: { id: entityId },
+            include: { creator: true }
+        })
+
         const allUsers = await prisma.user.findMany()
 
         const fileService = new CreateFileService()
 
-        if (!creator) {
+        if (!creator && !model && !agency) {
             return
         }
 
         if (type === "MODEL") {
-            const model = await prisma.modelEntity.findUnique({ where: { id: entityId }})
             const newPost = await prisma.post.create({
                 data: {
                     content,
@@ -34,8 +44,8 @@ export class CreatePostService {
             await fileService.execute({ entity_type: type, entity_id: entityId, files: files})
 
             await new GenerateNotificationsToAllUsersService().execute({
-                creatorId: creator.id,
-                content: `${creator.username} fez uma publicação.`,
+                creatorId: model ? model.user.id : '',
+                content: `${model ? model.user.username : ''} fez uma publicação.`,
                 users: allUsers
             })
 
@@ -49,7 +59,6 @@ export class CreatePostService {
             return resultPost
 
         } else if (type === "AGENCY") {
-            const agency = await prisma.agency.findUnique({ where: { id: entityId }})
             const newPost = await prisma.post.create({
                 data: {
                     content,
@@ -61,8 +70,8 @@ export class CreatePostService {
             await fileService.execute({ entity_type: type, entity_id: entityId, files: files})
 
             await new GenerateNotificationsToAllUsersService().execute({
-                creatorId: creator.id,
-                content: `${creator.username} fez uma publicação.`,
+                creatorId: agency ? agency.creator.id: "",
+                content: `${agency ? agency.creator.username : ''} fez uma publicação.`,
                 users: allUsers
             })
 
@@ -76,12 +85,11 @@ export class CreatePostService {
             return resultPost
 
         } else {
-            const user = await prisma.user.findUnique({ where: { id: entityId }})
             const newPost = await prisma.post.create({
                 data: {
                     content,
                     type: "USER",
-                    userId: user?.id
+                    userId: creator?.id
                 }
             })
 
@@ -95,8 +103,8 @@ export class CreatePostService {
             await fileService.execute({ entity_type: type, entity_id: newPost.id, files: files})
 
             await new GenerateNotificationsToAllUsersService().execute({
-                creatorId: creator.id,
-                content: `${creator.username} fez uma publicação.`,
+                creatorId: creator ? creator.id : "",
+                content: `${creator ? creator.username : ""} fez uma publicação.`,
                 users: allUsers
             })
 

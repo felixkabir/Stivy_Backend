@@ -18,6 +18,7 @@ export class GetPostService {
         }
 
         const allPosts = await prisma.post.findMany({
+            orderBy: { created_at: "asc" },
             include: { file_entity: true, user: true }
         })
 

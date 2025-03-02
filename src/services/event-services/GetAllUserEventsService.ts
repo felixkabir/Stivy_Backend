@@ -9,6 +9,7 @@ export class GetAllUserEventsService {
 
         const allUserEvents = await prisma.eventEntity.findMany({
             where: { userId },
+            orderBy: { created_at: "asc" },
             include: { user: true }
         })
 

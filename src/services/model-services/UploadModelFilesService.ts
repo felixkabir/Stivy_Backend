@@ -19,12 +19,12 @@ export class UploadModelFilesService {
             await postService.execute({ type: "MODEL", content, entityId: model.id, files })
 
             const modelFilesUploadeds = await prisma.post.findMany({
-                where: { modelId: model.id },
-                orderBy: { created_at: "asc"},
+                where: { userId: model.userId },
+                orderBy: { created_at: "desc"},
                 include: { model_entity: true, file_entity: true }
             })
 
-            return modelFilesUploadeds
+            return modelFilesUploadeds[0]
         }
 
     }

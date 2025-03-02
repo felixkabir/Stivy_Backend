@@ -26,6 +26,14 @@ export class UploadModelFilesController {
                 files: request.files as any
             })
 
+            if (result === null) {
+                const allFiles = request.files as any
+    
+                allFiles.forEach(async(file: Express.Multer.File) => {
+                    await deleteFile(String(file.filename))
+                });
+            }
+
             response.json(result)
 
         } catch (error: any) {
