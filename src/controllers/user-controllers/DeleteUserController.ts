@@ -9,7 +9,7 @@ export class DeleteUserController {
         try {
             if (!userId) {
                 response.status(400).json({message: "Id is required!"})
-                return                
+                return
             }
             const service = new DeleteUserService()
     
