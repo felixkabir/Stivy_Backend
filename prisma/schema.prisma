@@ -66,19 +66,11 @@ model Agency {
   models  ModelEntity[]
 }
 
-enum InterestSelect {
-  MODEL
-  MODEL_FREELANCE
-  PHOTOGRAPH
-  PHOTOGRAPH_FREELANCE
-  MODE_LOVER
-}
-
 model Interest {
   id         String         @id @default(uuid())
   created_at DateTime       @default(now())
-  interest_type       InterestSelect @default(MODE_LOVER)
-  name       String
+  interest_type       String @default("MODEL_LOVER")
+  name String
   users      UserInterest[]
 }
 

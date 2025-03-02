@@ -1,7 +1,7 @@
 import { prisma } from "../../PrismaHandler";
 
 type InterestTypeRequest = {
-    type: "MODEL" | "MODEL_FREELANCE" | "PHOTOGRAPH" | "PHOTOGRAPH_FREELANCE" | "MODE_LOVER";
+    type: string;
     name: string
 }
 
