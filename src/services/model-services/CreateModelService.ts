@@ -1,3 +1,4 @@
+import { addInterestToUser } from "../../helpers/addInterestToUser";
 import { prisma } from "../../PrismaHandler";
 import { ModelType } from "../../Types";
 
@@ -10,9 +11,13 @@ export class  CreateModelService {
     async execute({ height, name, shoes, userId, waist, agencyId, contact, file_key, file_url }: Omit<ModelTypeRequest, "id">): Promise<any> {
 
         const verifyAgency = await prisma.agency.findUnique({ where: { id: agencyId }})
+        const getModelInterest = await prisma.interest.findMany({
+            where: { interest_type: "MODEL" }
+        })
 
         const user = await prisma.user.findUnique({
-            where: { id: userId }
+            where: { id: userId },
+            include: { interests: true }
         })
 
         if(!user) return null
@@ -34,6 +39,7 @@ export class  CreateModelService {
         })
 
         if (newModel) {
+            await addInterestToUser(user.id, getModelInterest[0].id)
             return newModel
         }
     }

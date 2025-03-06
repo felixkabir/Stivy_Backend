@@ -1,5 +1,6 @@
 import { prisma } from "../../PrismaHandler";
 
+
 type AgenCyTypeRequest = {
     agenceId: string;
 }

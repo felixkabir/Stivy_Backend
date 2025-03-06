@@ -6,10 +6,9 @@ import SocketConfig from "../sockets/index"
 import { routes } from "../routes";
 import path from "path";
 import { checkIfInterestExist } from "../helpers/checkIfInterestExist";
-import { InterestType } from "../Types";
 import { DEFAULT_INTERESTS } from "../utils/default-interests";
 
-// @types/prisma typescript nodemon @types/jsonwebtoken
+
 export class App {
     public app: Express;
     public server: HttpServer;
