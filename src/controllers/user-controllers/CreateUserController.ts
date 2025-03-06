@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { CreateUserService } from "../../services/user-services/CreateUserService";
 import { generateHashPassword } from "../../helpers/generateHashPassword";
 import { deleteFile } from "../../helpers/deleteFile";
-import { CreateUserInput, userSchema } from "../../Schema";
+import { CreateUserInput, createUserSchema } from "../../Schema/createUserSchema";
 import { z } from "zod";
 
 
@@ -11,7 +11,7 @@ export class CreateUserController {
         const service = new CreateUserService()
 
         try {
-            const validatedData: CreateUserInput = userSchema.parse(request.body)
+            const validatedData: CreateUserInput = createUserSchema.parse(request.body)
 
             const result = await service.execute({
                 username: validatedData.username,
@@ -31,9 +31,6 @@ export class CreateUserController {
                 deleteFile(String(request.file?.filename))
                 response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
             }
-
         }
-
-
     }
 }
