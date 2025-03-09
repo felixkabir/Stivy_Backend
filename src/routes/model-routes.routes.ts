@@ -12,7 +12,7 @@ import { GetModelFilesController } from "../controllers/model-controllers/GetMod
 import { CreateRequestModelController } from "../controllers/request-model-controllers/CreateRequestModelController";
 import { CreateModelFreelanceController } from "../controllers/model-controllers/CreateModelFreelanceController";
 
-const routes = Router()
+const routes = Router();
 
 routes.post("/add/:agencyId?", multer(multerConfig).single("file"), new CreateModelController().handle);
 
