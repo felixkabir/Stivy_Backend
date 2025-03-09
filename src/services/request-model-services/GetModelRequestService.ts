@@ -1,3 +1,4 @@
+import { prisma } from "../../PrismaHandler";
 
 type GetModelTypeRequest = {
     modelId: string;
@@ -5,7 +6,12 @@ type GetModelTypeRequest = {
 
 
 export class GetModelRequestsService {
-    async execute({modelId }: GetModelTypeRequest): Promise<any> {
+    async execute({ modelId }: GetModelTypeRequest): Promise<any> {
+        
+        const modelRequests  = await prisma.modelRequest.findMany({
+            where: { modelId: modelId }
+        })
 
+        return modelRequests
     }
 }

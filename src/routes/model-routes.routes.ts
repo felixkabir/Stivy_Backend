@@ -11,6 +11,7 @@ import { UploadModelFilesController } from "../controllers/model-controllers/Upl
 import { GetModelFilesController } from "../controllers/model-controllers/GetModelFilesController";
 import { CreateRequestModelController } from "../controllers/request-model-controllers/CreateRequestModelController";
 import { CreateModelFreelanceController } from "../controllers/model-controllers/CreateModelFreelanceController";
+import { GetModelRequestsController } from "../controllers/request-model-controllers/GetModelRequestsController";
 
 const routes = Router();
 
@@ -23,13 +24,15 @@ routes.post("/files/upload/:modelId?", multer(multerConfig).any(), new UploadMod
 // Request Model Route
 routes.post("/request/:userId?", new CreateRequestModelController().handle);
 
+routes.get("/request/:modelId?", new GetModelRequestsController().handle);
+
 routes.get("/agency-list/:agenceId?", new GetAgencyModelsController().handle);
 
 routes.get("/", new ListAllPlatformModelsController().handle);
 
 routes.get("/files/:modelId?", new GetModelFilesController().handle);
 
-routes.put("/update/:modelId?", new UpdateModelController().handle);
+routes.put("/update/:modelId?", multer(multerConfig).single("file"), new UpdateModelController().handle);
 
 routes.delete("/delete/:agencyId/:agencyOwnerId", new DeleteModelsFromAnAgencyController().handle);
 
