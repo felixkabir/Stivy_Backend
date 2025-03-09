@@ -15,13 +15,13 @@ export class DeletePostController {
             const service = new DeletePostService()
     
             const result = await service.execute({ postId })
-    
-            if (result !== null) {
-                response.json(result)
+
+            if (result === null) {
+                response.status(404).json({error: "Post does not exist!"})
                 return
             }
     
-            response.status(404).json({message:"Post does not exist!"})
+            response.json(result)
             
         } catch (error: any) {
             response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})            

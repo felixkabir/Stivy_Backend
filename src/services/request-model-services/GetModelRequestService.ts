@@ -7,9 +7,10 @@ type GetModelTypeRequest = {
 
 export class GetModelRequestsService {
     async execute({ modelId }: GetModelTypeRequest): Promise<any> {
-        
+
         const modelRequests  = await prisma.modelRequest.findMany({
-            where: { modelId: modelId }
+            where: { modelId: modelId },
+            include: { author: true }
         })
 
         return modelRequests
