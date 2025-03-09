@@ -1,49 +1,35 @@
-import { addInterestToUser } from "../../helpers/addInterestToUser";
+import createHttpError from "http-errors";
 import { prisma } from "../../PrismaHandler";
 import { ModelType } from "../../Types";
 
 
-type ModelTypeRequest = Omit<ModelType, "files"> & {
+type ModelTypeRequest = Omit<ModelType, "files" | "userId"> & {
     agencyId: string;
 }
 
 export class CreateModelService {
-    async execute({ height, name, shoes, userId, waist, agencyId, contact, file_key, file_url }: Omit<ModelTypeRequest, "id">): Promise<any> {
+    async execute({ height, name, shoes, waist, agencyId, contact, file_key, file_url }: Omit<ModelTypeRequest, "id">): Promise<any> {
 
         const verifyAgency = await prisma.agency.findUnique({ where: { id: agencyId } })
-        const getModelInterest = await prisma.interest.findMany({
-            where: { interest_type: "MODEL" }
-        })
-        if (userId) {
 
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-                include: { interests: true }
-            })
+        if (!verifyAgency) throw createHttpError(404, "Agency not found!")
 
-            if (!user) return null
-
-
-            if (!verifyAgency) return null
-
-            const newModel = await prisma.modelEntity.create({
-                data: {
-                    name: name ? name : "undefined",
-                    height,
-                    shoes,
-                    waist,
-                    contact,
-                    file_url,
-                    file_key,
-                    userId: user.id,
-                    agencyId: verifyAgency.id
-                }
-            })
-
-            if (newModel) {
-                await addInterestToUser(user.id, getModelInterest[0].id)
-                return newModel
+        const newModel = await prisma.modelEntity.create({
+            data: {
+                name: name ? name : "undefined",
+                height,
+                shoes,
+                waist,
+                contact,
+                file_url,
+                file_key,
+                agencyId: verifyAgency.id
             }
+        })
+
+        if (newModel) {
+            return newModel
         }
+
     }
 }

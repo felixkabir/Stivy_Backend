@@ -25,7 +25,6 @@ export class CreateModelController {
                 height,
                 shoes,
                 contact,
-                userId
             } = validatedData
     
             const service = new CreateModelService()
@@ -33,7 +32,6 @@ export class CreateModelController {
     
             const result = await service.execute({
                 agencyId,
-                userId,
                 name,
                 waist,
                 contact,
