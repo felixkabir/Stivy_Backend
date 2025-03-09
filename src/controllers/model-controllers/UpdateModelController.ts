@@ -16,7 +16,7 @@ export class UpdateModelController {
             }
     
             const service = new UpdateModelService()
-    
+
             const result = await service.execute({
                 id: modelId,
                 shoes,
