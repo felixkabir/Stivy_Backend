@@ -7,7 +7,7 @@ export class UpdateEventController {
     async handle(request: Request, response: Response) {
 
         const { eventId } = request.params
-        const { name, end_date, start_date } = request.body
+        const { name, end_date, start_date, location } = request.body
 
         try {
             if (!eventId) {
@@ -24,7 +24,8 @@ export class UpdateEventController {
                 end_date,
                 start_date,
                 file_key: String(request.file?.filename),
-                file_url: String(request.file?.path)
+                file_url: String(request.file?.path),
+                location
             })
     
             response.json(result)
