@@ -26,6 +26,7 @@ export class CreateEventController {
                 end_date: validatedData.end_date,
                 start_date: validatedData.start_date,
                 userId,
+                location: validatedData.location,
                 file_key: String(request.file?.filename),
                 file_url: String(request.file?.path)
             })
