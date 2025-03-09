@@ -67,3 +67,9 @@ export type InterestType = {
     type: string;
     name: string
 }
+
+export type ModelRequestType = {
+    userId: string;
+    modelId: string;
+    agencyId: string | null;
+}

@@ -13,7 +13,7 @@ export class GetAgencyModelsService {
                 agencyId: agenceId
             },
 
-            include: { file_entity: true}
+            include: { file_entity: true, ModelRequest: true}
         })
 
         return allAgencyModels

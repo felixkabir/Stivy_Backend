@@ -8,6 +8,7 @@ export class ListAllPlatformModelsService {
             include: {
                 agency: true,
                 file_entity: true,
+                ModelRequest: true
             }
         })
 

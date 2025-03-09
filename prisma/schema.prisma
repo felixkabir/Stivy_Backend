@@ -36,10 +36,10 @@ model User {
 model ModelEntity {
   id       String  @id @default(uuid())
   name     String
-  height   String
-  waist    String
-  shoes    String
-  contact  String
+  height   String?
+  waist    String?
+  shoes    String?
+  contact  String?
   file_url String?
   file_key String?
 
