@@ -15,6 +15,11 @@ export class DeletePostController {
             const service = new DeletePostService()
     
             const result = await service.execute({ postId })
+
+            if (result === null) {
+                response.status(404).json({error: "Post does not exist!"})
+                return
+            }
     
             response.json(result)
             
