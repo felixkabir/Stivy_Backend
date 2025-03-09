@@ -10,7 +10,7 @@ export class CreateUserService {
             data: {
                 username,
                 email,
-                password,
+                password,   
                 file_key,
                 file_url
             }

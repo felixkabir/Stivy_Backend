@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.routes = void 0;
+const express_1 = require("express");
+const SetNotificationAsReadedController_1 = require("../controllers/notification-controllers/SetNotificationAsReadedController");
+const CountUserUnreadedNotificationsController_1 = require("../controllers/notification-controllers/CountUserUnreadedNotificationsController");
+const routes = (0, express_1.Router)();
+exports.routes = routes;
+routes.put("/set-as-readed/:userId", new SetNotificationAsReadedController_1.SetNotificationAsReadedController().handle);
+routes.get("/unread/:userId?", new CountUserUnreadedNotificationsController_1.CountUserUnreadedNotificationsController().handle);
