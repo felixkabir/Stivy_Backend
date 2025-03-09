@@ -31,6 +31,7 @@ model User {
   createdNotifications  Notification[] @relation(name: "Creator")
   receivedNotifications Notification[] @relation(name: "CreatedFor")
   ModelRequest          ModelRequest[]
+  Reaction              Reaction[]
 }
 
 model ModelEntity {
@@ -98,8 +99,9 @@ model EventEntity {
   start_date DateTime
   end_date   DateTime
 
-  userId String
-  user   User   @relation(references: [id], fields: [userId])
+  userId   String
+  user     User       @relation(references: [id], fields: [userId])
+  Reaction Reaction[]
 }
 
 model Post {
@@ -119,6 +121,7 @@ model Post {
   agency       Agency?      @relation(references: [id], fields: [agencyId])
   model_entity ModelEntity? @relation(references: [id], fields: [modelId])
   file_entity  FileEntity[]
+  Reaction     Reaction[]
 }
 
 model Notification {
@@ -144,6 +147,17 @@ model FileEntity {
 
   postId String?
   post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)
+}
+
+model Reaction {
+  id      String  @id @default(uuid())
+  userId  String
+  postId  String?
+  eventId String?
+
+  post   Post?        @relation(references: [id], fields: [postId], onDelete: Cascade)
+  event  EventEntity? @relation(references: [id], fields: [eventId], onDelete: Cascade)
+  author User         @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 model ModelRequest {
