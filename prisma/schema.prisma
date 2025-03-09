@@ -168,25 +168,27 @@ model User {
   event_entity          EventEntity[]
   createdNotifications  Notification[] @relation(name: "Creator")
   receivedNotifications Notification[] @relation(name: "CreatedFor")
+  ModelRequest          ModelRequest[]
 }
 
 model ModelEntity {
   id       String  @id @default(uuid())
   name     String
-  height   String
-  waist    String
-  shoes    String
-  contact  String
+  height   String?
+  waist    String?
+  shoes    String?
+  contact  String?
   file_url String?
   file_key String?
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String? @unique
   Post   Post[]
 
-  agencyId    String?
-  agency      Agency?      @relation(references: [id], fields: [agencyId], onDelete: Cascade)
-  file_entity FileEntity[]
+  agencyId     String?
+  agency       Agency?        @relation(references: [id], fields: [agencyId], onDelete: Cascade)
+  file_entity  FileEntity[]
+  ModelRequest ModelRequest[]
 }
 
 model Agency {
@@ -198,10 +200,11 @@ model Agency {
   file_key String?
   contact  String
 
-  userId  String
-  creator User          @relation(references: [id], fields: [userId], onDelete: Cascade)
-  Post    Post[]
-  models  ModelEntity[]
+  userId       String
+  creator      User           @relation(references: [id], fields: [userId], onDelete: Cascade)
+  Post         Post[]
+  models       ModelEntity[]
+  ModelRequest ModelRequest[]
 }
 
 model Interest {
@@ -241,7 +244,7 @@ model Post {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
 
-  is_work_model Boolean?  @default(false)
+  is_work_model Boolean? @default(false)
 
   content String?
   type    String?
@@ -279,4 +282,16 @@ model FileEntity {
 
   postId String?
   post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)
+}
+
+model ModelRequest {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  modelId    String
+  userId     String?
+  agencyId   String?
+
+  modelRequested ModelEntity @relation(references: [id], fields: [modelId], onDelete: Cascade)
+  author         User?       @relation(references: [id], fields: [userId], onDelete: Cascade)
+  agency         Agency?     @relation(references: [id], fields: [agencyId], onDelete: Cascade)
 }

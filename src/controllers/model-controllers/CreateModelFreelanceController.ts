@@ -1,49 +1,40 @@
 import { Request, Response } from "express";
-import { CreateModelService } from "../../services/model-services/CreateModelService";
 import { deleteFile } from "../../helpers/deleteFile";
-import { createModelInput, createModelSchema } from "../../Schema/createModelSchema";
+import { CreateModelFreelanceService } from "../../services/model-services/CreateModelFreelanceService";
 import { ZodError } from "zod";
 
 
-export class CreateModelController {
+export class CreateModelFreelanceController {
     async handle(request: Request, response: Response) {
-        const { agencyId } = request.params
+        
+        try {            
+            const { userId } = request.params
 
-        try {
-            
-            if(!agencyId) {
+            if(!userId) {
                 await deleteFile(String(request.file?.filename))
-                response.status(400).json({message: "Agency Id is Required!"})
+                response.status(400).json({message: "User Id is Required!"})
                 return
             }
-
-            const validatedData: createModelInput = createModelSchema.parse(request.body)
     
             const {
-                name,
                 waist,
                 height,
                 shoes,
                 contact,
-            } = validatedData
+            } = request.body
     
-            const service = new CreateModelService()
-
+            const service = new CreateModelFreelanceService()
     
             const result = await service.execute({
-                agencyId,
-                name,
+                userId,
                 waist,
                 contact,
                 shoes,
                 height,
-                file_key: String(request.file?.filename),
-                file_url: String(request.file?.path),
             })
     
             if (result == null) {
-                await deleteFile(String(request.file?.filename))
-                response.status(404).json({message: "Agency does not exist!"})
+                response.status(404).json({message: "User does not exist!"})
                 return
             }
     

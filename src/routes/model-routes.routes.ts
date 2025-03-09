@@ -10,10 +10,13 @@ import { DeleteModelFileController } from "../controllers/model-controllers/Dele
 import { UploadModelFilesController } from "../controllers/model-controllers/UploadModelFilesController";
 import { GetModelFilesController } from "../controllers/model-controllers/GetModelFilesController";
 import { CreateRequestModelController } from "../controllers/request-model-controllers/CreateRequestModelController";
+import { CreateModelFreelanceController } from "../controllers/model-controllers/CreateModelFreelanceController";
 
-const routes = Router()
+const routes = Router();
 
 routes.post("/add/:agencyId?", multer(multerConfig).single("file"), new CreateModelController().handle);
+
+routes.post("/freelance/create/:userId?", new CreateModelFreelanceController().handle);
 
 routes.post("/files/upload/:modelId?", multer(multerConfig).any(), new UploadModelFilesController().handle);
 

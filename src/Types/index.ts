@@ -29,15 +29,15 @@ export type AgencyType = {
 
 export type ModelType = {
     id: string;
-    name: string;
-    height: string;
-    waist: string;
-    shoes: string;
-    contact: string;
+    name: string | null;
+    height: string | null;
+    waist: string | null;
+    shoes: string | null;
+    contact: string | null;
     file_key?: string;
     file_url?: string;
 
-    userId: string
+    userId: string | null
     files?: File[]
 }
 
@@ -66,4 +66,10 @@ export interface UserResponse extends UserType {
 export type InterestType = {
     type: string;
     name: string
+}
+
+export type ModelRequestType = {
+    userId: string;
+    modelId: string;
+    agencyId: string | null;
 }

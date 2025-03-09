@@ -44,8 +44,8 @@ export class CreatePostService {
             await fileService.execute({ entity_type: type, entity_id: entityId, files: files})
 
             await new GenerateNotificationsToAllUsersService().execute({
-                creatorId: model ? model.user.id : '',
-                content: `${model ? model.user.username : ''} fez uma publicação.`,
+                creatorId: model?.user ? model.user.id : '',
+                content: `${model?.user ? model.user.username : ''} fez uma publicação.`,
                 users: allUsers
             })
 
