@@ -22,14 +22,15 @@ routes.post("/freelance/create/:userId?", new CreateModelFreelanceController().h
 
 routes.post("/files/upload/:modelId?", multer(multerConfig).any(), new UploadModelFilesController().handle);
 
-// Request Model Route
+// Request Model Routes
 routes.post("/request/:userId?", new CreateRequestModelController().handle);
 
 routes.get("/request/:modelId?", new GetModelRequestsController().handle);
 
-routes.get("/agency-list/:agenceId?", new GetAgencyModelsController().handle);
-
 routes.get("/request/agency/:agencyId?", new GetAgencyModelRequestController().handle);
+//End Request Model Routes
+
+routes.get("/agency-list/:agenceId?", new GetAgencyModelsController().handle);
 
 routes.get("/", new ListAllPlatformModelsController().handle);
 
