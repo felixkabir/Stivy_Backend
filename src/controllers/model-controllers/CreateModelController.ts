@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { CreateModelService } from "../../services/model-services/CreateModelService";
 import { deleteFile } from "../../helpers/deleteFile";
+import { createModelInput, createModelSchema } from "../../Schema/createModelSchema";
+import { ZodError } from "zod";
 
 
 export class CreateModelController {
@@ -14,6 +16,8 @@ export class CreateModelController {
                 response.status(400).json({message: "Agency Id is Required!"})
                 return
             }
+
+            const validatedData: createModelInput = createModelSchema.parse(request.body)
     
             const {
                 name,
@@ -22,9 +26,10 @@ export class CreateModelController {
                 shoes,
                 contact,
                 userId
-            } = request.body
+            } = validatedData
     
             const service = new CreateModelService()
+
     
             const result = await service.execute({
                 agencyId,
@@ -46,8 +51,11 @@ export class CreateModelController {
     
             response.json(result)
         } catch (error: any) {
-            response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
+            if (error instanceof ZodError) {
+                response.status(400).json({error: `${error.errors[0].message}`})
+            } else {                
+                response.status(500).json({message: `Ocorreu um erro inesperado: ${error}`})
+            }
         }
-
     }
 }

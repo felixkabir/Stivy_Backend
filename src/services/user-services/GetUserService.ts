@@ -12,14 +12,7 @@ export class GetUserService {
         if (userId) {
             const user = await prisma.user.findUnique({
                 where: { id: userId },
-                include: { 
-                    agencies:{
-                        include:{
-                            models:true,
-                            creator: true,
-                            Post: true,
-                        }
-                } }
+                include: { agencies: true, interests: true }
             })
             if (user) {
                 return user                
@@ -29,14 +22,7 @@ export class GetUserService {
 
         } else {
             const users = await prisma.user.findMany({
-                include: { 
-                    agencies:{
-                        include:{
-                            models:true,
-                            creator: true,
-                            Post: true,
-                        }
-                 }}
+                include: { agencies: true, interests: true }
             })
 
             return users

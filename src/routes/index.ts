@@ -6,6 +6,7 @@ import { routes as agencyRoutes } from "./agency-routes.routes";
 import { routes as modelRoutes } from "./model-routes.routes";
 import { routes as notificationRoutes } from "./notification-routes.routes";
 import { routes as eventRoutes } from "./event-routes.routes";
+import { routes as interestRoutes } from "./interest-routes.routes";
 
 const routes = Router()
 
@@ -29,5 +30,8 @@ routes.use("/notifications", notificationRoutes)
 
 // Event Routes
 routes.use("/events", eventRoutes)
+
+// Interest Routes
+routes.use("/interests", interestRoutes)
 
 export { routes }
