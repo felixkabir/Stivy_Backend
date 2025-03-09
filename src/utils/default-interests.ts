@@ -18,7 +18,7 @@ export const DEFAULT_INTERESTS: InterestType[] = [
 
     {
         type: 'PHOTOGRAPH_FREELANCE',
-        name: 'Fotógrafo Freelance'
+        name: 'Fotógrafo Freelance' 
     },
 
     {

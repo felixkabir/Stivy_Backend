@@ -9,7 +9,6 @@ type UserTypeRequest = Omit<UserType, "id" | "created_at"> & {
 export class CreateUserService {
     async execute({ username, email, password, file_key, file_url, interest_types }: UserTypeRequest): Promise<UserResponse | any> {
 
-        // Removendo as aspas simples no inicio e no final do Array em formato de string
         const array_in_string = interest_types.replace(/\'/g, '')
 
         const parsed_array = JSON.parse(array_in_string)

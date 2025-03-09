@@ -11,8 +11,13 @@ export class CreateUserController {
         const service = new CreateUserService()
 
         try {
+
             const validatedData: CreateUserInput = createUserSchema.parse(request.body)
 
+            if (!validatedData) {
+                throw new Error("Dados incorrectos")
+            }
+            
             const result = await service.execute({
                 username: validatedData.username,
                 email: validatedData.email,

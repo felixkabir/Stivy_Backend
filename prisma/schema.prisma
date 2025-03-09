@@ -1,147 +1,3 @@
-// generator client {
-//   provider = "prisma-client-js"
-// }
-
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
-// model User {
-//   id            String         @id @default(uuid())
-//   created_at    DateTime       @default(now())
-//   username      String
-//   file_url      String?
-//   file_key      String?
-//   email         String         @unique
-//   password      String
-//   online_status Boolean?       @default(false)
-//   interests     UserInterest[]
-//   agencies      Agency[]
-
-//   model_entity          ModelEntity?
-//   Post                  Post[]
-//   event_entity          EventEntity[]
-//   createdNotifications  Notification[] @relation(name: "Creator")
-//   receivedNotifications Notification[] @relation(name: "CreatedFor")
-// }
-
-// model ModelEntity {
-//   id       String  @id @default(uuid())
-//   name     String
-//   height   String
-//   waist    String
-//   shoes    String
-//   contact  String
-//   file_url String?
-//   file_key String?
-
-//   user   User   @relation(fields: [userId], references: [id])
-//   userId String @unique
-//   Post   Post[]
-
-//   agencyId    String?
-//   agency      Agency?      @relation(references: [id], fields: [agencyId], onDelete: Cascade)
-//   file_entity FileEntity[]
-// }
-
-// model Agency {
-//   id         String   @id @default(uuid())
-//   created_at DateTime @default(now())
-
-//   name     String
-//   file_url String?
-//   file_key String?
-//   contact  String
-
-//   userId  String
-//   creator User          @relation(references: [id], fields: [userId], onDelete: Cascade)
-//   Post    Post[]
-//   models  ModelEntity[]
-// }
-
-// model Interest {
-//   id            String         @id @default(uuid())
-//   created_at    DateTime       @default(now())
-//   interest_type String         @default("MODEL_LOVER")
-//   name          String
-//   users         UserInterest[]
-// }
-
-// model UserInterest {
-//   userId     String
-//   interestId String
-//   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   interest   Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
-
-//   @@id([userId, interestId]) // Chave primária composta
-// }
-
-// model EventEntity {
-//   id         String   @id @default(uuid())
-//   created_at DateTime @default(now())
-//   name       String
-//   location   String?
-
-//   file_url String?
-//   file_key String?
-
-//   start_date DateTime
-//   end_date   DateTime
-
-//   userId String
-//   user   User   @relation(references: [id], fields: [userId])
-// }
-
-// model Post {
-//   id         String   @id @default(uuid())
-//   created_at DateTime @default(now())
-
-//   is_work_model Boolean?  @default(false)
-
-//   content String?
-//   type    String?
-
-//   userId   String?
-//   agencyId String?
-//   modelId  String?
-
-//   user         User?        @relation(references: [id], fields: [userId])
-//   agency       Agency?      @relation(references: [id], fields: [agencyId])
-//   model_entity ModelEntity? @relation(references: [id], fields: [modelId])
-//   file_entity  FileEntity[]
-// }
-
-// model Notification {
-//   id         String   @id @default(uuid())
-//   created_at DateTime @default(now())
-//   content    String
-//   is_readed  Boolean  @default(false)
-
-//   creatorId String
-//   creator   User   @relation(name: "Creator", references: [id], fields: [creatorId])
-
-//   createdForId String
-//   createdFor   User   @relation(name: "CreatedFor", references: [id], fields: [createdForId])
-// }
-
-// model FileEntity {
-//   id       String @id @default(uuid())
-//   file_url String
-//   file_key String
-
-//   modelId      String?
-//   model_entity ModelEntity? @relation(references: [id], fields: [modelId], onDelete: Cascade)
-
-//   postId String?
-//   post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)
-// }
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -169,6 +25,8 @@ model User {
   createdNotifications  Notification[] @relation(name: "Creator")
   receivedNotifications Notification[] @relation(name: "CreatedFor")
   ModelRequest          ModelRequest[]
+
+  @@index([email])
 }
 
 model ModelEntity {
@@ -181,14 +39,16 @@ model ModelEntity {
   file_url String?
   file_key String?
 
-  user   User?   @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Restrict)
   userId String? @unique
   Post   Post[]
 
   agencyId     String?
-  agency       Agency?        @relation(references: [id], fields: [agencyId], onDelete: Cascade)
+  agency       Agency?        @relation(fields: [agencyId], references: [id], onDelete: Cascade)
   file_entity  FileEntity[]
   ModelRequest ModelRequest[]
+
+  @@index([agencyId])
 }
 
 model Agency {
@@ -201,10 +61,12 @@ model Agency {
   contact  String
 
   userId       String
-  creator      User           @relation(references: [id], fields: [userId], onDelete: Cascade)
+  creator      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   Post         Post[]
   models       ModelEntity[]
   ModelRequest ModelRequest[]
+
+  @@index([userId])
 }
 
 model Interest {
@@ -221,7 +83,9 @@ model UserInterest {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   interest   Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
 
-  @@id([userId, interestId]) 
+  @@id([userId, interestId])
+  @@index([userId])
+  @@index([interestId])
 }
 
 model EventEntity {
@@ -237,7 +101,9 @@ model EventEntity {
   end_date   DateTime
 
   userId String
-  user   User   @relation(references: [id], fields: [userId])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
 }
 
 model Post {
@@ -253,10 +119,14 @@ model Post {
   agencyId String?
   modelId  String?
 
-  user         User?        @relation(references: [id], fields: [userId])
-  agency       Agency?      @relation(references: [id], fields: [agencyId])
-  model_entity ModelEntity? @relation(references: [id], fields: [modelId])
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  agency       Agency?      @relation(fields: [agencyId], references: [id], onDelete: Restrict)
+  model_entity ModelEntity? @relation(fields: [modelId], references: [id], onDelete: Restrict)
   file_entity  FileEntity[]
+
+  @@index([userId])
+  @@index([agencyId])
+  @@index([modelId])
 }
 
 model Notification {
@@ -266,10 +136,13 @@ model Notification {
   is_readed  Boolean  @default(false)
 
   creatorId String
-  creator   User   @relation(name: "Creator", references: [id], fields: [creatorId])
+  creator   User   @relation(name: "Creator", fields: [creatorId], references: [id], onDelete: Restrict)
 
   createdForId String
-  createdFor   User   @relation(name: "CreatedFor", references: [id], fields: [createdForId])
+  createdFor   User   @relation(name: "CreatedFor", fields: [createdForId], references: [id], onDelete: Restrict)
+
+  @@index([creatorId])
+  @@index([createdForId])
 }
 
 model FileEntity {
@@ -278,10 +151,13 @@ model FileEntity {
   file_key String
 
   modelId      String?
-  model_entity ModelEntity? @relation(references: [id], fields: [modelId], onDelete: Cascade)
+  model_entity ModelEntity? @relation(fields: [modelId], references: [id], onDelete: Cascade)
 
   postId String?
-  post   Post?   @relation(references: [id], fields: [postId], onDelete: Cascade)
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([modelId])
+  @@index([postId])
 }
 
 model ModelRequest {
@@ -291,7 +167,11 @@ model ModelRequest {
   userId     String?
   agencyId   String?
 
-  modelRequested ModelEntity @relation(references: [id], fields: [modelId], onDelete: Cascade)
-  author         User?       @relation(references: [id], fields: [userId], onDelete: Cascade)
-  agency         Agency?     @relation(references: [id], fields: [agencyId], onDelete: Cascade)
+  modelRequested ModelEntity @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  author         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agency         Agency?     @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([modelId])
+  @@index([userId])
+  @@index([agencyId])
 }
