@@ -51,8 +51,9 @@ export type EventType = {
     id: string;
     created_at: Date;
     name: string
-    start_date: Date;
-    end_date: Date;
+    start_date: string;
+    end_date: string;
+    location: string;
     userId: string
 
     file_url?: string;
