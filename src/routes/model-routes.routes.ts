@@ -12,6 +12,7 @@ import { GetModelFilesController } from "../controllers/model-controllers/GetMod
 import { CreateRequestModelController } from "../controllers/request-model-controllers/CreateRequestModelController";
 import { CreateModelFreelanceController } from "../controllers/model-controllers/CreateModelFreelanceController";
 import { GetModelRequestsController } from "../controllers/request-model-controllers/GetModelRequestsController";
+import { GetAgencyModelRequestController } from "../controllers/request-model-controllers/GetAgencyModelRequestController";
 
 const routes = Router();
 
@@ -27,6 +28,8 @@ routes.post("/request/:userId?", new CreateRequestModelController().handle);
 routes.get("/request/:modelId?", new GetModelRequestsController().handle);
 
 routes.get("/agency-list/:agenceId?", new GetAgencyModelsController().handle);
+
+routes.get("/request/agency/:agencyId?", new GetAgencyModelRequestController().handle);
 
 routes.get("/", new ListAllPlatformModelsController().handle);
 
