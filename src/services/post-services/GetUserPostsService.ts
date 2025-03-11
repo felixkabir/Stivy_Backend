@@ -10,7 +10,7 @@ export class GetUserPostsService {
 
         const posts = await prisma.post.findMany({
             where: { userId: userId },
-            include: { user: true, file_entity: true  }
+            include: { user: true, file_entity: true, Reaction: true }
         })
 
         return posts

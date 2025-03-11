@@ -6,11 +6,15 @@ import { UpdateEventController } from "../controllers/event-controllers/UpdateEv
 import { DeleteEventController } from "../controllers/event-controllers/DeleteEventController";
 import { GetEventsController } from "../controllers/event-controllers/GetEventsController";
 import { GetAllUserEventsController } from "../controllers/event-controllers/GetAllUserEventsController";
+import { CreateReactionController } from "../controllers/reaction-controllers/CreateReactionController";
 
 
 const routes = Router()
 
-routes.post("/create/:userId?", multer(multerConfig).single("file"), new CreateEventController().handle)
+routes.post("/create/:userId?", multer(multerConfig).single("file"), new CreateEventController().handle);
+
+// Event Reaction routes
+routes.post("/reaction/:userId?", new CreateReactionController().handle)
 
 routes.get("/all", new GetEventsController().handle)
 

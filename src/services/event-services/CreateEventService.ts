@@ -8,9 +8,9 @@ export class CreateEventService {
 
         const newEvent = await prisma.eventEntity.create({
             data: {
-                end_date,
+                end_date: new Date(end_date),
                 name,
-                start_date,
+                start_date: new Date(start_date),
                 userId,
                 file_key,
                 file_url,
