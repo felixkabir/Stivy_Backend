@@ -8,6 +8,7 @@ import multerConfig from "../Config/multer";
 import { GetUserPostsController } from "../controllers/post-controllers/GetUserPostsController";
 import { GetPostReactionsController } from "../controllers/reaction-controllers/GetPostsReactionController";
 import { CreateReactionController } from "../controllers/reaction-controllers/CreateReactionController";
+import { DeleteReactionController } from "../controllers/reaction-controllers/DeleteReactionController";
 
 
 const routes = Router()
@@ -19,6 +20,8 @@ routes.post("/create/:entityId?", multer(multerConfig).any(), new CreatePostCont
 routes.post("/reaction/:userId?", new CreateReactionController().handle)
 
 routes.get("/reaction/:postId?", new GetPostReactionsController().handle)
+
+routes.delete("/reaction/:userId?", new DeleteReactionController().handle)
 
 routes.get("/:postId?", new GetPostController().handle);
 

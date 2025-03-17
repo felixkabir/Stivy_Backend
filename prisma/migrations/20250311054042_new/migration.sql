@@ -10,7 +10,6 @@ CREATE TABLE `User` (
     `online_status` BOOLEAN NULL DEFAULT false,
 
     UNIQUE INDEX `User_email_key`(`email`),
-    INDEX `User_email_idx`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -78,7 +77,6 @@ CREATE TABLE `EventEntity` (
     `end_date` DATETIME(3) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
 
-    INDEX `EventEntity_userId_idx`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -93,9 +91,6 @@ CREATE TABLE `Post` (
     `agencyId` VARCHAR(191) NULL,
     `modelId` VARCHAR(191) NULL,
 
-    INDEX `Post_userId_idx`(`userId`),
-    INDEX `Post_agencyId_idx`(`agencyId`),
-    INDEX `Post_modelId_idx`(`modelId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -123,6 +118,16 @@ CREATE TABLE `FileEntity` (
 
     INDEX `FileEntity_modelId_idx`(`modelId`),
     INDEX `FileEntity_postId_idx`(`postId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Reaction` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `postId` VARCHAR(191) NULL,
+    `eventId` VARCHAR(191) NULL,
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -178,6 +183,15 @@ ALTER TABLE `FileEntity` ADD CONSTRAINT `FileEntity_modelId_fkey` FOREIGN KEY (`
 
 -- AddForeignKey
 ALTER TABLE `FileEntity` ADD CONSTRAINT `FileEntity_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `Post`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Reaction` ADD CONSTRAINT `Reaction_postId_fkey` FOREIGN KEY (`postId`) REFERENCES `Post`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Reaction` ADD CONSTRAINT `Reaction_eventId_fkey` FOREIGN KEY (`eventId`) REFERENCES `EventEntity`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Reaction` ADD CONSTRAINT `Reaction_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ModelRequest` ADD CONSTRAINT `ModelRequest_modelId_fkey` FOREIGN KEY (`modelId`) REFERENCES `ModelEntity`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
