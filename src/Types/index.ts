@@ -21,12 +21,6 @@ export type AgencyType = {
     creator?: UserType
 }
 
-// export type FileType = {
-//     id: string;
-//     file_url: string;
-//     file_key: string;
-// }
-
 export type ModelType = {
     id: string;
     name: string | null;

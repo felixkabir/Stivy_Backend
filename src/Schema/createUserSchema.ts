@@ -16,10 +16,21 @@ export const updateUserSchema = z.object({
   password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres").optional(),
   interest_types: z.string().optional()
 }).partial().refine(data => {
-  // Ensure at least one field is provided for update
   return Object.values(data).some(value => value !== undefined);
 }, {
   message: "At least one field must be provided for update"
 });
 
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;
+
+
+export const updateAgencySchema = z.object({
+    name: z.string().optional(),
+    contact: z.string().email().optional(),
+  }).partial().refine(data => {
+    return Object.values(data).some(value => value !== undefined);
+  }, {
+    message: "At least one field must be provided for update"
+  });
+  
+  export type UpdateAgencyInput = z.infer<typeof updateAgencySchema>;

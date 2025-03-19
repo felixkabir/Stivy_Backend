@@ -11,7 +11,6 @@ export class UpdateModelService {
         const model = await prisma.modelEntity.findUnique({
             where: { id }
         })
-
         
         if (model) {
             if (file_key && file_url) {
@@ -26,8 +25,8 @@ export class UpdateModelService {
                     shoes: shoes ? shoes : model.shoes,
                     waist: waist ? waist : model.waist,
                     contact: contact ? contact : model.contact,
-                    file_key: file_key ? file_key : model.file_key,
-                    file_url: file_url ? file_url : model.file_url
+                    file_key: file_key !== undefined ? file_key : model.file_key,
+                    file_url: file_url !== undefined ? file_url : model.file_url
                 }
             })
 
