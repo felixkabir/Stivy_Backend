@@ -64,6 +64,7 @@ model Agency {
   Post         Post[]
   models       ModelEntity[]
   ModelRequest ModelRequest[]
+  events      EventEntity[]
 
   @@index([userId])
 }
@@ -98,9 +99,10 @@ model EventEntity {
 
   start_date DateTime
   end_date   DateTime
-
-  userId   String
-  user     User       @relation(references: [id], fields: [userId])
+  agencyId    String?
+  userId   String?
+  user        User?    @relation(fields: [userId], references: [id])
+  agency      Agency?  @relation(fields: [agencyId], references: [id])
   Reaction Reaction[]
 }
 
