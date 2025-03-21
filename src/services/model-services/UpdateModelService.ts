@@ -6,17 +6,19 @@ import { deleteFile } from "../../helpers/deleteFile";
 type ModelTypeRequest = Partial<Omit<ModelType, "files" | "userId">>
 
 export class UpdateModelService {
-    async execute({ id, height, name, shoes, waist, contact, file_key, file_url}: ModelTypeRequest): Promise<any> {
+    async execute({ id, height, name, shoes, waist, contact, file_key, file_url }: ModelTypeRequest): Promise<any> {
 
-        const model = await prisma.modelEntity.findUnique({
-            where: { id }
-        })
-        
+        const model = await prisma.modelEntity.findUnique(
+            {
+                where: { id }
+            }
+        )
+
         if (model) {
             if (file_key && file_url) {
                 await deleteFile(String(model.file_key))
             }
-            
+
             const updatedModel = await prisma.modelEntity.update({
                 where: { id: model.id },
                 data: {
