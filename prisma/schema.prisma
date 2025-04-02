@@ -16,7 +16,8 @@ model User {
   email         String         @unique
   password      String
   online_status Boolean?       @default(false)
-  gender        Gender         @default(FEMALE)
+  gender        Gender         @default(OTHER)
+  type          UserType       @default(FASHION_LOVER) 
   interests     UserInterest[]
   agencies      Agency[]
 
@@ -193,3 +194,12 @@ enum Gender {
   OTHER
 }
  
+ enum UserType {
+  MODEL
+  FREELANCE_MODEL
+  PHOTOGRAPHER
+  FREELANCE_PHOTOGRAPHER
+  FASHION_LOVER
+  DESIGNER
+  STYLIST
+}
