@@ -5,11 +5,11 @@ import { DeleteModelsFromAnAgencyService } from "../../services/model-services/D
 
 export class DeleteModelsFromAnAgencyController {
     async handle(request: Request, response: Response) {
-        const { agencyId, agencyOwnerId } = request.params
+        const { agencyId, agencyOwnerId, modelId} = request.params
 
         try {
             if (agencyId && agencyOwnerId) {
-                const { model_ids } = request.body
+                const model_ids = modelId
         
                 const service = new DeleteModelsFromAnAgencyService()
         

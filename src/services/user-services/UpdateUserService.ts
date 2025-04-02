@@ -2,10 +2,10 @@ import { prisma } from "../../PrismaHandler";
 import { UserType } from "../../Types";
 import { GetUserService } from "./GetUserService";
 
-type UpdateUserTypeRequest = Partial<Omit<UserType, "password" | "file_key" | "file_url">>
+type UpdateUserTypeRequest = Partial<Omit<UserType, "file_key" | "file_url">>
 
 export class UpdateUserService {
-    async execute({ id, email, username }: UpdateUserTypeRequest): Promise<any> {
+    async execute({ id, email, username ,password}: UpdateUserTypeRequest): Promise<any> {
 
         const user = await new GetUserService().execute({ userId: id })
 
@@ -18,7 +18,8 @@ export class UpdateUserService {
             where: { id },
             data: {
                 email,
-                username
+                username,
+                password
             },
 
             select: {

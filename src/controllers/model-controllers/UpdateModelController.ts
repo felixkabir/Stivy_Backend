@@ -8,6 +8,9 @@ export class UpdateModelController {
         const { modelId } = request.params
         const { shoes, name, waist, height, contact } = request.body
 
+        console.log('====================================');
+        console.log(shoes, name, waist, height, contact);
+        console.log('====================================');
         try {
             if (!modelId) {
                 await deleteFile(String(request.file?.filename))
@@ -24,8 +27,8 @@ export class UpdateModelController {
                 waist,
                 height,
                 contact,
-                file_key: String(request.file?.filename),
-                file_url: String(request.file?.path)
+                file_key: request.file?.filename ? String(request.file?.filename) : undefined,
+                file_url: request.file?.path ? String(request.file?.path) : undefined,
             })
     
             response.json(result)

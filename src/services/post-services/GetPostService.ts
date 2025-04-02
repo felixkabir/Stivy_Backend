@@ -11,7 +11,7 @@ export class GetPostService {
         if (postId) {
             const post = await prisma.post.findUnique({
                 where: { id: postId },
-                include: { file_entity: true, user: true, Reaction: true }
+                include: { file_entity: true, user: true, Reaction: true, agency: true, }
             })
 
             return post
@@ -19,7 +19,7 @@ export class GetPostService {
 
         const allPosts = await prisma.post.findMany({
             orderBy: { created_at: "asc" },
-            include: { file_entity: true, user: true, Reaction: true }
+            include: { file_entity: true, user: true, Reaction: true,agency: true }
         })
 
         return allPosts

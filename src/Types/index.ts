@@ -1,3 +1,5 @@
+import { Gender } from "@prisma/client";
+
 export type UserType = {
     id: string;
     created_at: Date;
@@ -6,6 +8,7 @@ export type UserType = {
     file_key: string | null;
     email: string;
     password: string;
+    gender?: Gender; 
 }
 
 export type AgencyType = {
@@ -20,12 +23,6 @@ export type AgencyType = {
 
     creator?: UserType
 }
-
-// export type FileType = {
-//     id: string;
-//     file_url: string;
-//     file_key: string;
-// }
 
 export type ModelType = {
     id: string;
@@ -54,8 +51,8 @@ export type EventType = {
     start_date: string;
     end_date: string;
     location: string;
-    userId: string
-
+    userId?: string
+    agencyId?: string
     file_url?: string;
     file_key?: string
 }

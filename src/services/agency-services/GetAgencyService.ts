@@ -2,7 +2,7 @@ import { prisma } from "../../PrismaHandler";
 
 
 type AgenCyTypeRequest = {
-    agenceId: string;
+    agenceId: string | null;
 }
 
 export class GetAgencyService {

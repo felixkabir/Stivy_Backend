@@ -38,7 +38,7 @@ routes.get("/files/:modelId?", new GetModelFilesController().handle);
 
 routes.put("/update/:modelId?", multer(multerConfig).single("file"), new UpdateModelController().handle);
 
-routes.delete("/delete/:agencyId/:agencyOwnerId", new DeleteModelsFromAnAgencyController().handle);
+routes.delete("/delete/:agencyId/:agencyOwnerId/:modelId", new DeleteModelsFromAnAgencyController().handle);
 
 routes.delete("/files/delete/:modelId/:fileId", new DeleteModelFileController().handle);
 
