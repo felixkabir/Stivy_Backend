@@ -22,6 +22,7 @@ export class CreateUserController {
                 username: validatedData.username,
                 email: validatedData.email,
                 interest_types: validatedData.interest_types,
+                gender: validatedData.gender, 
                 file_url: String(request.file?.path),
                 file_key: String(request.file?.filename),
                 password: await generateHashPassword(validatedData.password)

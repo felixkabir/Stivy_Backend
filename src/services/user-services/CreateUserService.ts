@@ -1,13 +1,15 @@
+import { Gender } from "@prisma/client";
 import { addInterestToUser } from "../../helpers/addInterestToUser";
 import { prisma } from "../../PrismaHandler";
 import { UserResponse, UserType } from "../../Types";
 
 type UserTypeRequest = Omit<UserType, "id" | "created_at"> & {
     interest_types: string;
+    gender?: Gender; 
 }
 
 export class CreateUserService {
-    async execute({ username, email, password, file_key, file_url, interest_types }: UserTypeRequest): Promise<UserResponse | any> {
+    async execute({ username, email, password, file_key, file_url, interest_types, gender = Gender.OTHER}: UserTypeRequest): Promise<UserResponse | any> {
 
         const array_in_string = interest_types.replace(/\'/g, '')
 
@@ -23,7 +25,8 @@ export class CreateUserService {
                 email,
                 password,   
                 file_key,
-                file_url
+                file_url,
+                gender
             }
         })
 

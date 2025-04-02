@@ -16,6 +16,7 @@ model User {
   email         String         @unique
   password      String
   online_status Boolean?       @default(false)
+  gender        Gender         @default(FEMALE)
   interests     UserInterest[]
   agencies      Agency[]
 
@@ -37,6 +38,7 @@ model ModelEntity {
   contact  String?
   file_url String?
   file_key String?
+  gender   Gender  @default(MALE)
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: Restrict)
   userId String? @unique
@@ -64,7 +66,7 @@ model Agency {
   Post         Post[]
   models       ModelEntity[]
   ModelRequest ModelRequest[]
-  events      EventEntity[]
+  events       EventEntity[]
 
   @@index([userId])
 }
@@ -99,11 +101,11 @@ model EventEntity {
 
   start_date DateTime
   end_date   DateTime
-  agencyId    String?
-  userId   String?
-  user        User?    @relation(fields: [userId], references: [id])
-  agency      Agency?  @relation(fields: [agencyId], references: [id])
-  Reaction Reaction[]
+  agencyId   String?
+  userId     String?
+  user       User?      @relation(fields: [userId], references: [id])
+  agency     Agency?    @relation(fields: [agencyId], references: [id])
+  Reaction   Reaction[]
 }
 
 model Post {
@@ -183,3 +185,11 @@ model ModelRequest {
   @@index([userId])
   @@index([agencyId])
 }
+
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+  OTHER
+}
+ 
